@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:contentDescription="plus"
+    tools:context=".MainActivity"
+    android:background="@drawable/blfinal">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="100dp"
+        android:layout_marginBottom="200dp"
+        android:padding="8dp" />
+
+
+
+
+
+        <ImageButton
+            android:id="@+id/calendar"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@android:color/transparent"
+            android:contentDescription="@string/calendartome"
+            android:src="@drawable/calendar"
+            android:layout_marginTop="810dp"
+            android:layout_marginLeft="100dp"/>
+
+        <ImageButton
+            android:id="@+id/shuttles"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@android:color/transparent"
+            android:contentDescription="@string/shuttlestome"
+            android:src="@drawable/shuttles"
+            android:layout_marginTop="810dp"
+            android:layout_marginLeft="180dp"/>
+
+        <ImageButton
+            android:id="@+id/driver"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@android:color/transparent"
+            android:contentDescription="@string/drivertome"
+            android:src="@drawable/drivers"
+            android:layout_marginTop="810dp"
+            android:layout_marginLeft="260dp"/>
+
+        <ImageButton
+            android:id="@+id/passengers"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@android:color/transparent"
+            android:contentDescription="@string/passengerstome"
+            android:src="@drawable/passengers"
+            android:layout_marginTop="810dp"
+            android:layout_marginLeft="330dp"/>
+
+
+    <ImageButton
+        android:id="@+id/bulletin"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:background="@android:color/transparent"
+        android:contentDescription="@string/bulletintome"
+        android:src="@drawable/bulletin"
+        android:layout_marginTop="810dp"
+        android:layout_marginLeft="30dp"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:orientation="horizontal"
+        android:padding="16dp"
+        android:layout_marginBottom="100dp"
+        >
+
+        <ImageButton
+            android:id="@+id/button_minus"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:contentDescription="minus"
+            android:src="@android:drawable/ic_media_pause"
+            android:background="@android:color/transparent"/>
+
+        <ImageButton
+            android:id="@+id/button_plus"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:contentDescription="input"
+            android:src="@android:drawable/ic_input_add"
+            android:background="@android:color/transparent"/>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/textView15"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Shuttles"
+        android:textColor="@color/white"
+        android:textSize="30dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="20dp" />
+
+    <ImageView
+        android:id="@+id/imageView8"
+        android:layout_width="99dp"
+        android:layout_height="72dp"
+        android:layout_marginLeft="170dp"
+        android:layout_marginTop="5dp"
+        app:srcCompat="@drawable/eviajelogo" />
+
+</RelativeLayout>

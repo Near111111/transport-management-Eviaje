@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="@drawable/blfinal">
+
+    <EditText
+        android:id="@+id/editTextName"
+        android:layout_width="400dp"
+        android:layout_height="50dp"
+        android:hint="@string/vehicle_name"
+        android:inputType="text"
+        android:textColorHint="#546E7A"
+        tools:ignore="TextFields"
+        android:autofillHints=""
+        android:layout_marginTop="200dp"/>
+
+    <EditText
+        android:id="@+id/editTextModel"
+        android:layout_width="400dp"
+        android:layout_height="50dp"
+        android:hint="@string/model"
+        android:inputType="text"
+        android:textColorHint="#546E7A"
+        tools:ignore="TextFields"
+        android:autofillHints="" />
+
+    <EditText
+        android:id="@+id/editTextPlateNumber"
+        android:layout_width="400dp"
+        android:layout_height="50dp"
+        android:autofillHints=""
+        android:hint="@string/plate_number"
+        android:inputType="text"
+        android:textColorHint="#546E7A"
+        tools:ignore="TextFields" />
+
+    <EditText
+        android:id="@+id/editTextColor"
+        android:layout_width="400dp"
+        android:layout_height="50dp"
+        android:hint="@string/color"
+        android:inputType="text"
+        android:textColorHint="#546E7A"
+        tools:ignore="TextFields"
+        android:autofillHints="" />
+
+    <EditText
+        android:id="@+id/editTextCapacity"
+        android:layout_width="400dp"
+        android:layout_height="50dp"
+        android:hint="@string/sitting_capacity"
+        android:inputType="number"
+        android:textColorHint="#546E7A"
+        tools:ignore="TextFields"
+        android:autofillHints="" />
+
+    <EditText
+        android:id="@+id/editTextCoding"
+        android:layout_width="400dp"
+        android:layout_height="50dp"
+        android:hint="@string/coding"
+        android:inputType="text"
+        android:textColorHint="#546E7A"
+        tools:ignore="TextFields"
+        android:autofillHints="" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:layout_marginLeft="30dp">
+
+        <Button
+            android:id="@+id/buttonSave1"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:text="@string/save"
+            android:layout_alignParentStart="true"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            />
+
+        <Button
+            android:id="@+id/backButton"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@id/buttonSave1"
+            android:layout_marginStart="16dp"
+            android:text="Back"
+            android:layout_centerVertical="true"
+            />
+    </RelativeLayout>
+
+</LinearLayout>
