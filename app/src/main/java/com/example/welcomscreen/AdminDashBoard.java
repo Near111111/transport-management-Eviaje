@@ -19,15 +19,7 @@ public class AdminDashBoard extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_admin_dash_board);
-        ImageButton imageButton5 = findViewById(R.id.imageButton5);
-        imageButton5.setOnClickListener(v -> {
-            Intent intent = new Intent(AdminDashBoard.this, AdminRegister.class);
-            startActivity(intent);
-            finish();
 
-
-        });
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());

@@ -14,17 +14,15 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class EditVehicleActivity extends AppCompatActivity {
+public class AddShuttle extends AppCompatActivity {
 
     private EditText editTextName, editTextModel, editTextPlateNumber, editTextColor, editTextSittingCapacity, editTextCoding;
     private String adminUsername = "Arvi";
 
-    private Button backButton;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.edit_vehicle);
+        setContentView(R.layout.activity_add_shuttle); // Use the provided layout
 
         // Initialize EditText fields
         editTextName = findViewById(R.id.editTextName);
@@ -34,41 +32,32 @@ public class EditVehicleActivity extends AppCompatActivity {
         editTextSittingCapacity = findViewById(R.id.editTextCapacity);
         editTextCoding = findViewById(R.id.editTextCoding);
 
-        // Get intent data and populate EditText fields
-        Intent intent = getIntent();
-        editTextName.setText(intent.getStringExtra("name"));
-        editTextModel.setText(intent.getStringExtra("model"));
-        editTextPlateNumber.setText(intent.getStringExtra("plate_number"));
-        editTextColor.setText(intent.getStringExtra("color"));
-        editTextSittingCapacity.setText(String.valueOf(intent.getIntExtra("sitting_capacity", 0)));
-        editTextCoding.setText(intent.getStringExtra("coding"));
-
-        // Set click listener for save button
-        findViewById(R.id.buttonSave1).setOnClickListener(new View.OnClickListener() {
+        // Set click listener for add button
+        findViewById(R.id.addButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                saveChanges();
+                addShuttle();
             }
         });
-//        backButton.setOnClickListener(v -> startActivity(new Intent(EditVehicleActivity.this, AdminShuttles.class)));
+
+        // Set click listener for back button
         findViewById(R.id.backButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(EditVehicleActivity.this, AdminShuttles.class);
+                Intent intent = new Intent(AddShuttle.this, AdminShuttles.class);
                 startActivity(intent);
                 finish();
             }
         });
     }
 
-
-    private void saveChanges() {
+    private void addShuttle() {
         // Retrieve data from EditText fields
         String name = editTextName.getText().toString();
         String model = editTextModel.getText().toString();
         String plateNumber = editTextPlateNumber.getText().toString();
         String color = editTextColor.getText().toString();
-        String sittingCapacity = editTextSittingCapacity.getText().toString(); // Corrected parameter name
+        String sittingCapacity = editTextSittingCapacity.getText().toString();
         String coding = editTextCoding.getText().toString();
 
         // Perform API call in a separate thread
@@ -85,7 +74,7 @@ public class EditVehicleActivity extends AppCompatActivity {
                 requestData.put("coding", coding);
 
                 // Create URL object for API endpoint
-                URL url = new URL("https://c889-136-158-57-167.ngrok-free.app/api/shuttles/updateShuttles");
+                URL url = new URL("https://c889-136-158-57-167.ngrok-free.app/api/shuttles/registerShuttles");
 
                 // Open connection
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -106,7 +95,7 @@ public class EditVehicleActivity extends AppCompatActivity {
                 if (responseCode == HttpURLConnection.HTTP_OK) {
                     runOnUiThread(() -> {
                         // Show success message
-                        Toast.makeText(EditVehicleActivity.this, "Changes saved", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(AddShuttle.this, "Shuttle added successfully", Toast.LENGTH_SHORT).show();
                         // Set result as OK and finish activity
                         setResult(RESULT_OK);
 //                        finish();
@@ -114,7 +103,7 @@ public class EditVehicleActivity extends AppCompatActivity {
                 } else {
                     runOnUiThread(() -> {
                         // Show error message
-                        Toast.makeText(EditVehicleActivity.this, "Failed to update shuttle details", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(AddShuttle.this, "Failed to add shuttle", Toast.LENGTH_SHORT).show();
                     });
                 }
 
@@ -124,10 +113,9 @@ public class EditVehicleActivity extends AppCompatActivity {
                 e.printStackTrace();
                 runOnUiThread(() -> {
                     // Show error message
-                    Toast.makeText(EditVehicleActivity.this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AddShuttle.this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                 });
             }
         }).start(); // Start the thread
     }
-
 }

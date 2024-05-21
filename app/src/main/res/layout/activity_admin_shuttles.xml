@@ -36,7 +36,7 @@
             android:layout_height="48dp"
             android:background="@android:color/transparent"
             android:contentDescription="@string/shuttlestome"
-            android:src="@drawable/shuttles"
+            android:src="@drawable/clickedshuttle"
             android:layout_marginTop="810dp"
             android:layout_marginLeft="180dp"/>
 
@@ -72,30 +72,30 @@
         android:layout_marginLeft="30dp"/>
 
     <LinearLayout
+        android:id="@+id/linearLayout6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:orientation="horizontal"
-        android:padding="16dp"
         android:layout_marginBottom="100dp"
-        >
+        android:orientation="horizontal"
+        android:padding="16dp">
 
         <ImageButton
             android:id="@+id/button_minus"
             android:layout_width="48dp"
             android:layout_height="48dp"
+            android:background="@android:color/transparent"
             android:contentDescription="minus"
-            android:src="@android:drawable/ic_media_pause"
-            android:background="@android:color/transparent"/>
+            android:src="@android:drawable/ic_media_pause" />
 
         <ImageButton
             android:id="@+id/button_plus"
             android:layout_width="48dp"
             android:layout_height="48dp"
+            android:background="@android:color/transparent"
             android:contentDescription="input"
-            android:src="@android:drawable/ic_input_add"
-            android:background="@android:color/transparent"/>
+            android:src="@android:drawable/ic_input_add" />
     </LinearLayout>
 
     <TextView
@@ -115,5 +115,17 @@
         android:layout_marginLeft="170dp"
         android:layout_marginTop="5dp"
         app:srcCompat="@drawable/eviajelogo" />
+
+    <Button
+        android:id="@+id/add_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="30dp"
+        android:layout_marginLeft="300dp"
+        android:layout_marginTop="570dp"
+        android:layout_marginBottom="113dp"
+        android:layout_toEndOf="@+id/linearLayout6"
+        android:text="Add" />
 
 </RelativeLayout>

@@ -8,7 +8,6 @@
     android:gravity="center_vertical"
     android:background="@drawable/blfinal">
 
-
     <!-- CardView -->
 
     <!-- Nested LinearLayout for content -->
@@ -21,8 +20,6 @@
         android:layout_marginTop="200dp">
 
         <!-- Image and Text Pair 1 -->
-
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -37,7 +34,7 @@
                 android:src="@drawable/portrait" />
 
             <TextView
-                android:id="@+id/textView1"
+                android:id="@+id/nameTextView"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
@@ -64,7 +61,7 @@
                 android:src="@drawable/phone" />
 
             <TextView
-                android:id="@+id/textView2"
+                android:id="@+id/mobileTextView"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
@@ -90,7 +87,7 @@
                 android:src="@drawable/email" />
 
             <TextView
-                android:id="@+id/textView3"
+                android:id="@+id/emailTextView"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
@@ -116,7 +113,7 @@
                 android:src="@drawable/bahay" />
 
             <TextView
-                android:id="@+id/textView4"
+                android:id="@+id/addressTextView"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
@@ -126,42 +123,69 @@
 
         </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingTop="8dp">
+
+            <ImageView
+                android:id="@+id/imageView5"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:src="@drawable/group" />
+
+            <TextView
+                android:id="@+id/groupTextView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:paddingLeft="8dp"
+                android:text="Group"
+                android:textSize="16sp" />
+        </LinearLayout>
+
     </LinearLayout>
 
     <ImageButton
         android:id="@+id/imageView14"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@drawable/passengerhome"
-        android:layout_marginTop="800dp"
-        android:background="@android:color/transparent"/>
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="790dp"
+        android:background="@android:color/transparent"
+        android:contentDescription="calndar"
+        app:srcCompat="@drawable/passengerhome" />
 
     <ImageButton
         android:id="@+id/imageView15"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@drawable/passengerschedule"
-        android:layout_marginTop="800dp"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
         android:layout_marginLeft="100dp"
-        android:background="@android:color/transparent"/>
-
+        android:layout_marginTop="790dp"
+        android:background="@android:color/transparent"
+        android:contentDescription="hme"
+        app:srcCompat="@drawable/passengerschedule" />
     <ImageButton
         android:id="@+id/imageView18"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@drawable/passengertracking"
-        android:layout_marginTop="800dp"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
         android:layout_marginLeft="210dp"
-        android:background="@android:color/transparent"/>
+        android:layout_marginTop="790dp"
+        android:background="@android:color/transparent"
+        android:contentDescription="mp"
+        app:srcCompat="@drawable/passengertracking" />
 
     <ImageButton
         android:id="@+id/imageView19"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@drawable/passengerprofile"
-        android:layout_marginTop="800dp"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
         android:layout_marginLeft="320dp"
-        android:background="@android:color/transparent"/>
+        android:layout_marginTop="790dp"
+        android:background="@android:color/transparent"
+        android:contentDescription="prf"
+        app:srcCompat="@drawable/clickedprofile" />
 
     <TextView
         android:id="@+id/textView21"
@@ -189,6 +213,5 @@
         android:background="@android:color/transparent"
         android:contentDescription="logout"
         app:srcCompat="@drawable/logout" />
-
-
 </RelativeLayout>
+

@@ -12,6 +12,8 @@ public class EditContactActivityForPassengers extends AppCompatActivity {
     private EditText editTextPhoneNumber;
     private EditText editTextEmail;
     private EditText editTextAddress;
+
+    private EditText editTextGroup;
     private Button buttonUpdate;
 
     @Override
@@ -23,36 +25,38 @@ public class EditContactActivityForPassengers extends AppCompatActivity {
         editTextName = findViewById(R.id.editText1);
         editTextPhoneNumber = findViewById(R.id.editText2);
         editTextEmail = findViewById(R.id.editText3);
-        editTextAddress = findViewById(R.id.editText4);
+//        editTextGroup = findViewById(R.id.spinnerGroup);
         buttonUpdate = findViewById(R.id.saveButton);
 
         // Retrieve contact index from intent extras
         int contactIndex = getIntent().getIntExtra("contactIndex", -1);
         if (contactIndex != -1) {
-            ContactCardForPassengers contact = AdminPassengers.contactCardList.get(contactIndex);
+            AdminPassengers.ContactCardForPassengers contact = AdminPassengers.contactCardList.get(contactIndex);
 
             // Populate EditText fields with current contact details
             editTextName.setText(contact.getName());
             editTextPhoneNumber.setText(contact.getPhoneNumber());
             editTextEmail.setText(contact.getEmail());
             editTextAddress.setText(contact.getAddress());
+            editTextGroup.setText(contact.getGroup());
 
             // Set onClickListener for update button
             buttonUpdate.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     // Update contact details with new values
-                    ContactCardForPassengers newContact = new ContactCardForPassengers(
+                    AdminPassengers.ContactCardForPassengers newContact = new AdminPassengers.ContactCardForPassengers(
                             editTextName.getText().toString(),
                             editTextPhoneNumber.getText().toString(),
                             editTextEmail.getText().toString(),
-                            editTextAddress.getText().toString()
+                            editTextAddress.getText().toString(),
+                            editTextGroup.getText().toString()
+
                     );
                     // Update the contact in the list
                     AdminPassengers.contactCardList.set(contactIndex, newContact);
                     // Notify adapter about the change
                     AdminPassengers.contactAdapter.editContact(contactIndex, newContact);
-
 
                     // Finish the activity
                     finish();

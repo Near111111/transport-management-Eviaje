@@ -4,13 +4,13 @@ import android.Manifest;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
+import android.widget.Button;
 import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentActivity;
-import android.util.Log;
 
-import com.example.welcomscreen.R;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -24,30 +24,38 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private static final String TAG = "MapsActivity";
+    private static final float PROXIMITY_THRESHOLD = 50; // 50 meters
+
     private GoogleMap mMap;
     private FusedLocationProviderClient fusedLocationClient;
     private LocationCallback locationCallback;
     private Marker userLocationMarker;
-    private Marker vehicleMarker;
-    private static final double MOVEMENT_SPEED = 0.0001; // Adjust this value to control movement speed
 
     // Define the static waypoints (stops)
-    private final LatLng[] waypoints = {
-            new LatLng(14.737940   , 121.127990), // Litex QC
-            new LatLng(14.688430  , 121.074530), // COA, Quezon City
-            new LatLng(14.635410, 121.023560), // Q, Ave Quezon City
-            new LatLng(14.602400   , 121.013489), // SM Sta. Mesa
-            new LatLng(14.582680  , 120.997290), // Quirino Ave & E Zamora St
-            new LatLng(14.583320 , 120.984154),  // Taft Avenue, Manila
-            new LatLng(-22.717910 , -43.848990), // Monumento
-            new LatLng(14.656120 , 120.995240),  // Blumentrit
-            new LatLng(14.577880   , 121.067932), //University Of Santo Tomas Manila
-            new LatLng(14.605330  , 120.980240), // Doroteo Jose LRT Station PH
-            new LatLng(14.598850 , 120.980301),  // Plaza Lacson
+    private final LatLng[] waypointsQuezon = {
+            new LatLng(14.737940, 121.127990), // Litex QC
+            new LatLng(14.688430, 121.074530), // COA, Quezon City
+            new LatLng(14.635410, 121.023560), // Q. Ave Quezon City
+            new LatLng(14.602400, 121.013489), // SM Sta. Mesa
+            new LatLng(14.582680, 120.997290), // Quirino Ave & E Zamora St
+            new LatLng(14.583320, 120.984154) // Taft Avenue, Manila
     };
+
+    private final LatLng[] waypointsManila = {
+            new LatLng(14.656120, 120.995240), // Blumentrit
+            new LatLng(14.577880, 121.067932), // University Of Santo Tomas Manila
+            new LatLng(14.605330, 120.980240), // Doroteo Jose LRT Station PH
+            new LatLng(14.598850, 120.980301) // Plaza Lacson
+    };
+
+    private List<Marker> waypointMarkers = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +75,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             @Override
             public void onLocationResult(LocationResult locationResult) {
                 if (locationResult == null) {
-                    Log.d(TAG, "LocationResult is null");
                     return;
                 }
                 for (Location location : locationResult.getLocations()) {
@@ -92,8 +99,24 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         // Start location updates
         startLocationUpdates();
 
-        // Show waypoints on the map
-        showWaypoints();
+        // Show Quezon Group waypoints
+        Button quezonGroupButton = findViewById(R.id.quezonGroupButton);
+        Button manilaGroupButton = findViewById(R.id.manilaGroupButton);
+
+        quezonGroupButton.setOnClickListener(v -> {
+            clearWaypoints();
+            addWaypoints(waypointsQuezon);
+            quezonGroupButton.setEnabled(false); // Disable the button once the waypoints are added
+            manilaGroupButton.setEnabled(true); // Enable the Manila button
+        });
+
+        // Show Manila Group waypoints
+        manilaGroupButton.setOnClickListener(v -> {
+            clearWaypoints();
+            addWaypoints(waypointsManila);
+            manilaGroupButton.setEnabled(false); // Disable the button once the waypoints are added
+            quezonGroupButton.setEnabled(true); // Enable the Quezon button
+        });
     }
 
     private void startLocationUpdates() {
@@ -104,7 +127,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
                 ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            Log.e(TAG, "Location permissions are not granted");
             return;
         }
         fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, null);
@@ -112,7 +134,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private void updateLocation(Location location) {
         if (location == null) {
-            Log.d(TAG, "Location is null");
             return;
         }
 
@@ -125,27 +146,34 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userLatLng, 15));
 
-        // Update vehicle's location marker (simulated)
-        updateVehicleLocation(userLatLng);
+        // Check and remove passed waypoints
+        removePassedWaypoints(userLatLng);
     }
 
-    private void updateVehicleLocation(LatLng userLatLng) {
-        // Simulate vehicle's movement based on user's location
-        double newLat = userLatLng.latitude + (MOVEMENT_SPEED * Math.random() * 2 - 1);
-        double newLng = userLatLng.longitude + (MOVEMENT_SPEED * Math.random() * 2 - 1);
-        LatLng vehicleLatLng = new LatLng(newLat, newLng);
-
-        // Update the vehicle marker position
-        if (vehicleMarker != null) {
-            vehicleMarker.setPosition(vehicleLatLng);
-        } else {
-            vehicleMarker = mMap.addMarker(new MarkerOptions().position(vehicleLatLng).title("Vehicle Location"));
+    private void addWaypoints(LatLng[] waypoints) {
+        for (LatLng waypoint : waypoints) {
+            Marker marker = mMap.addMarker(new MarkerOptions().position(waypoint).title("Stop"));
+            waypointMarkers.add(marker);
         }
     }
 
-    private void showWaypoints() {
-        for (LatLng waypoint : waypoints) {
-            mMap.addMarker(new MarkerOptions().position(waypoint).title("Stops"));
+    private void clearWaypoints() {
+        for (Marker marker : waypointMarkers) {
+            marker.remove();
+        }
+        waypointMarkers.clear();
+    }
+
+    private void removePassedWaypoints(LatLng userLatLng) {
+        Iterator<Marker> iterator = waypointMarkers.iterator();
+        while (iterator.hasNext()) {
+            Marker marker = iterator.next();
+            float[] results = new float[1];
+            Location.distanceBetween(userLatLng.latitude, userLatLng.longitude, marker.getPosition().latitude, marker.getPosition().longitude, results);
+            if (results[0] < PROXIMITY_THRESHOLD) {
+                marker.remove();
+                iterator.remove();
+            }
         }
     }
 
@@ -175,7 +203,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 }
             } else {
                 Toast.makeText(this, "Location permission denied", Toast.LENGTH_SHORT).show();
-                Log.e(TAG, "Location permission denied");
             }
         }
     }

@@ -17,6 +17,18 @@
         android:theme="@style/Theme.WelcomScreen"
         tools:targetApi="31">
         <activity
+            android:name=".AddShuttle"
+            android:exported="true"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".EditHoliday"
+            android:exported="true"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ChooseDate"
+            android:exported="true"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".DriverNewSchedule"
             android:exported="true"
             android:screenOrientation="portrait" />
@@ -68,13 +80,16 @@
             android:name=".Geolocation"
             android:exported="true"
             android:screenOrientation="portrait" />
-        <activity android:name=".TestForPassengers"
+        <activity
+            android:name=".TestForPassengers"
+            android:exported="true"
             android:screenOrientation="portrait" />
         <activity
             android:name=".AdminPassengers"
             android:exported="true"
             android:screenOrientation="portrait" />
-        <activity android:name=".EditVehicleActivity"
+        <activity
+            android:name=".EditVehicleActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".AdminShuttles"
@@ -82,10 +97,6 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".Test111"
-            android:exported="true"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".ContactCard"
             android:exported="true"
             android:screenOrientation="portrait" />
         <activity

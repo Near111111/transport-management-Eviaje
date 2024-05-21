@@ -14,14 +14,12 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.concurrent.atomic.AtomicReference;
 
 public class MainActivity3 extends AppCompatActivity {
 
     private EditText editTextUsername, editTextPassword;
     private ImageButton buttonLogin, backButton;
-
-
+    private String loggedInUsername;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,16 +34,17 @@ public class MainActivity3 extends AppCompatActivity {
         editTextUsername = findViewById(R.id.username_input);
         editTextPassword = findViewById(R.id.password_input);
         buttonLogin = findViewById(R.id.secondlog);
-    }
-    private void setBackLogin(){
         backButton = findViewById(R.id.backButton);
-        backButton.setOnClickListener(v ->{
+    }
+
+    private void setBackLogin() {
+        backButton.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity3.this, MainActivity2.class);
             startActivity(intent);
             finish();
         });
-        ;
     }
+
     private void setLoginClickListener() {
         buttonLogin.setOnClickListener(v -> {
             String username = editTextUsername.getText().toString();
@@ -59,18 +58,21 @@ public class MainActivity3 extends AppCompatActivity {
         protected JSONObject doInBackground(String... params) {
             JSONObject responseJson = null;
             try {
-                URL url = new URL("https://transport-management-r02p.onrender.com/api/user/login");
+                URL url = new URL("https://c889-136-158-57-167.ngrok-free.app/api/user/login");
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                 connection.setRequestMethod("POST");
                 connection.setRequestProperty("Content-Type", "application/json");
                 connection.setDoOutput(true);
+
                 JSONObject requestData = new JSONObject();
                 requestData.put("username", params[0]);
                 requestData.put("password", params[1]);
+
                 OutputStream outputStream = connection.getOutputStream();
                 outputStream.write(requestData.toString().getBytes());
                 outputStream.flush();
                 outputStream.close();
+
                 BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
                 StringBuilder response = new StringBuilder();
                 String line;
@@ -100,6 +102,7 @@ public class MainActivity3 extends AppCompatActivity {
                 int code = apiResult.getInt("code");
                 if (code == 200) {
                     JSONObject userDetails = apiResult.getJSONObject("data").getJSONObject("user_details");
+                    loggedInUsername = userDetails.getString("username");
                     int userRole = userDetails.getInt("user_role");
                     redirectBasedOnRole(userRole);
                 } else {
@@ -121,9 +124,11 @@ public class MainActivity3 extends AppCompatActivity {
                 break;
             case 2:
                 intent = new Intent(MainActivity3.this, EmployeeHomeScreen.class);
+                intent.putExtra("username", loggedInUsername);
                 break;
             case 3:
                 intent = new Intent(MainActivity3.this, DrivenHomeScreen.class);
+                intent.putExtra("username", loggedInUsername);
                 break;
             default:
                 Toast.makeText(MainActivity3.this, "Unknown User Role", Toast.LENGTH_SHORT).show();

@@ -2,19 +2,19 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
-      <entry key="DrivenHomeScreen">
+      <entry key="AdminShuttles">
         <State />
       </entry>
       <entry key="DriverProfile">
         <State />
       </entry>
-      <entry key="EmployeeSchedule">
+      <entry key="EmployeeProfile">
         <State />
       </entry>
-      <entry key="MapsActivity">
+      <entry key="MainActivity">
         <State />
       </entry>
-      <entry key="PassengerActivity">
+      <entry key="MainActivity2">
         <State />
       </entry>
       <entry key="app">

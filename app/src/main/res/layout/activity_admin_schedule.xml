@@ -21,7 +21,7 @@
         android:contentDescription="@string/calendartome"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/calendar" />
+        app:srcCompat="@drawable/pindotcalendar" />
 
     <ImageButton
         android:id="@+id/shuttles"
@@ -79,7 +79,7 @@
         android:id="@+id/textView4"
         android:layout_width="140dp"
         android:layout_height="65dp"
-        android:layout_marginStart="64dp"
+        android:layout_marginStart="24dp"
         android:layout_marginTop="24dp"
         android:scaleType="fitXY"
         android:text="Schedule"
@@ -212,7 +212,7 @@
             android:gravity="center"
             android:padding="5dp"
             android:scaleType="fitXY"
-            android:text="@string/passenger_listtome"
+            android:text="Pickup/Drop off"
             android:textColor="#ffff"
             android:textSize="18dp"
             android:textStyle="bold" />
@@ -224,11 +224,33 @@
             android:gravity="center"
             android:padding="5dp"
             android:scaleType="fitXY"
-            android:text="Pickup/Drop off"
+            android:text="Passengers"
             android:textColor="#ffff"
             android:textSize="18dp"
             android:textStyle="bold" />
     </TableRow>
+
+    <TextView
+        android:id="@+id/textView14"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="48dp"
+        android:text="TextView"
+        app:layout_constraintEnd_toEndOf="@+id/imageView16"
+        app:layout_constraintHorizontal_bias="0.507"
+        app:layout_constraintStart_toEndOf="@+id/textView5"
+        app:layout_constraintTop_toBottomOf="@+id/imageView17" />
+
+    <TextView
+        android:id="@+id/textView27"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="52dp"
+        android:text="TextView"
+        app:layout_constraintEnd_toEndOf="@+id/imageView16"
+        app:layout_constraintHorizontal_bias="0.433"
+        app:layout_constraintStart_toEndOf="@+id/textView6"
+        app:layout_constraintTop_toBottomOf="@+id/textView14" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,38 +1,33 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
+    android:layout_width="800dp"
     android:layout_height="match_parent"
-    android:padding="16dp"
-    android:layout_weight="0"
+    android:padding="0dp"
     android:gravity="center_vertical"
     android:background="@drawable/blfinal">
 
     <!-- CardView -->
 
-    <Button
-        android:id="@+id/saveButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="saveChanges"
-        android:text="Save" />
-
 
 
     <androidx.cardview.widget.CardView
         android:id="@+id/card_view"
-        android:layout_width="match_parent"
+        android:layout_width="409dp"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
+        app:cardBackgroundColor="#D0EFFF"
         app:cardCornerRadius="8dp"
-        app:cardElevation="4dp">
+        app:cardElevation="5dp">
+
+
 
         <!-- Nested LinearLayout for content -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="#D0EFFF"
             android:orientation="vertical"
-            android:padding="16dp"
-            android:background="#D0EFFF">
+            android:padding="1dp">
 
             <!-- Image Button to trigger edit mode -->
             <ImageButton
@@ -40,10 +35,38 @@
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:layout_weight="1"
-                android:contentDescription="@string/edit3tome"
-                app:srcCompat="@drawable/editt"
                 android:background="@android:color/transparent"
-                android:onClick="toggleEditMode"/>
+                android:contentDescription="@string/edit3tome"
+                android:onClick="toggleEditMode"
+                app:srcCompat="@drawable/editt" />
+
+            <!-- Image and Editable Text Pair for Username -->
+            <LinearLayout
+                android:id="@+id/linearLayoutUsername"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingTop="8dp">
+
+                <ImageView
+                    android:id="@+id/imageViewUsername"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+                <EditText
+                    android:id="@+id/editTextUsername"
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:layout_weight="2"
+                    android:enabled="false"
+                    android:hint="Username"
+                    android:paddingLeft="8dp"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
 
             <!-- Image and Editable Text Pair 1 -->
             <LinearLayout
@@ -51,7 +74,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:paddingTop="8dp">
 
                 <ImageView
                     android:id="@+id/imageView1"
@@ -64,12 +88,23 @@
                     android:id="@+id/editText1"
                     android:layout_width="0dp"
                     android:layout_height="48dp"
-                    android:layout_weight="2"
+                    android:layout_weight="1"
+                    android:enabled="false"
+                    android:hint="First Name"
                     android:paddingLeft="8dp"
-                    android:hint="Name"
                     android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:enabled="false" />
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/editTextLastName"
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:layout_weight="1"
+                    android:enabled="false"
+                    android:hint="Last Name"
+                    android:paddingLeft="8dp"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
 
             </LinearLayout>
 
@@ -94,10 +129,10 @@
                     android:layout_width="0dp"
                     android:layout_height="48dp"
                     android:layout_weight="2"
+                    android:enabled="false"
+                    android:hint="Phone Number"
                     android:paddingLeft="8dp"
-                    android:text="Phone Number"
-                    android:textSize="16sp"
-                    android:enabled="false" />
+                    android:textSize="16sp" />
 
             </LinearLayout>
 
@@ -122,10 +157,10 @@
                     android:layout_width="0dp"
                     android:layout_height="48dp"
                     android:layout_weight="2"
+                    android:enabled="false"
+                    android:hint="Email"
                     android:paddingLeft="8dp"
-                    android:text="Email"
-                    android:textSize="16sp"
-                    android:enabled="false" />
+                    android:textSize="16sp" />
 
             </LinearLayout>
 
@@ -137,28 +172,53 @@
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:paddingTop="8dp">
+                <!-- Content for linearLayout4 -->
+            </LinearLayout>
+
+            <!-- Image and Editable Text Pair 5 (Changed to Spinner) -->
+            <LinearLayout
+                android:id="@+id/linearLayout5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingTop="8dp">
 
                 <ImageView
-                    android:id="@+id/imageView4"
+                    android:id="@+id/imageView5"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:src="@drawable/bahay" />
+                    android:src="@drawable/group" />
 
-                <EditText
-                    android:id="@+id/editText4"
+                <Spinner
+                    android:id="@+id/spinnerGroup"
                     android:layout_width="0dp"
                     android:layout_height="48dp"
                     android:layout_weight="2"
-                    android:paddingLeft="8dp"
-                    android:text="Address"
-                    android:textSize="16sp"
-                    android:enabled="false" />
+                    android:paddingLeft="8dp" />
+
 
             </LinearLayout>
 
         </LinearLayout>
+        <Button
+            android:id="@+id/saveButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="saveChanges"
+            android:text="Save"
+            android:layout_marginTop="400dp"
+            android:layout_marginLeft="150dp"/>
 
+        <Button
+            android:id="@+id/saveButton2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="saveChanges"
+            android:text="Cancel"
+            android:layout_marginTop="400dp"
+            android:layout_marginLeft="250dp"/>
     </androidx.cardview.widget.CardView>
 
 </RelativeLayout>

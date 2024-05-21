@@ -8,30 +8,11 @@
     tools:context=".AdminRegister">
 
     <EditText
-        android:id="@+id/RegPass1"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="252dp"
-        android:layout_marginEnd="16dp"
-        android:background="@drawable/rounded_corner"
-        android:hint="Group"
-        android:inputType="text"
-        android:padding="20dp"
-        android:textColor="@color/black"
-        android:textColorHint="@color/black"
-        android:textSize="15sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/RegUser" />
-
-    <EditText
         android:id="@+id/RegPass4"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="172dp"
+        android:layout_marginTop="192dp"
         android:layout_marginEnd="16dp"
         android:background="@drawable/rounded_corner"
         android:hint="Email"
@@ -50,7 +31,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="108dp"
         android:layout_marginEnd="16dp"
         android:background="@drawable/rounded_corner"
         android:hint="Number"
@@ -84,12 +65,14 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/arrow" />
 
+
+    <!-- Existing Spinner for User Roles -->
     <EditText
         android:id="@+id/firstname"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_width="170dp"
+        android:layout_height="59dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="68dp"
         android:layout_marginEnd="16dp"
         android:background="@drawable/rounded_corner"
         android:hint="First Name"
@@ -105,11 +88,9 @@
 
     <EditText
         android:id="@+id/lastname"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="16dp"
+        android:layout_width="170dp"
+        android:layout_height="59dp"
+        android:layout_marginTop="68dp"
         android:background="@drawable/rounded_corner"
         android:hint="Last Name"
         android:inputType="text"
@@ -118,16 +99,16 @@
         android:textColorHint="@color/black"
         android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/firstname" />
+        app:layout_constraintHorizontal_bias="0.709"
+        app:layout_constraintStart_toEndOf="@+id/firstname"
+        app:layout_constraintTop_toBottomOf="@+id/imageView10" />
 
     <EditText
         android:id="@+id/RegUser"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
         android:background="@drawable/rounded_corner"
         android:hint="Username"
@@ -141,13 +122,12 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/lastname" />
 
-
     <EditText
         android:id="@+id/RegPass"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="16dp"
         android:background="@drawable/rounded_corner"
         android:hint="Password"
@@ -161,13 +141,30 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/RegUser" />
 
+    <!-- New Spinner for City Group -->
     <Spinner
         android:id="@+id/spinner"
         android:layout_width="379dp"
         android:layout_height="48dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/RegPass1" />
+        app:layout_constraintTop_toBottomOf="@+id/RegPass4" />
+
+    <Spinner
+        android:id="@+id/spinnerCityGroup"
+        android:layout_width="379dp"
+        android:layout_height="48dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spinner" />
+
+    <Spinner
+        android:id="@+id/spinnerCityLocations"
+        android:layout_width="379dp"
+        android:layout_height="48dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spinnerCityGroup" />
 
     <ImageButton
         android:id="@+id/imageButton3"
@@ -177,8 +174,10 @@
         android:contentDescription="@string/regsigntome"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spinner"
+        app:layout_constraintTop_toBottomOf="@+id/spinnerCityGroup"
+        app:layout_constraintVertical_bias="0.851"
         app:srcCompat="@drawable/signup" />
 
     <ImageView

@@ -40,7 +40,7 @@
         android:layout_toEndOf="@+id/shuttles"
         android:background="@android:color/transparent"
         android:contentDescription="@string/drivertome"
-        android:src="@drawable/drivers" />
+        android:src="@drawable/drivernablue" />
 
     <ImageButton
         android:id="@+id/bulletin"

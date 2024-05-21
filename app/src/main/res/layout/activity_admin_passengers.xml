@@ -26,7 +26,6 @@
         android:layout_alignBottom="@+id/calendar"
         android:layout_marginStart="13dp"
         android:layout_marginBottom="2dp"
-        android:layout_toEndOf="@+id/routes"
         android:background="@android:color/transparent"
         android:contentDescription="@string/shuttlestome"
         android:src="@drawable/shuttles" />
@@ -67,7 +66,7 @@
         android:layout_toEndOf="@+id/driver"
         android:background="@android:color/transparent"
         android:contentDescription="@string/passengerstome"
-        android:src="@drawable/passengers" />
+        android:src="@drawable/clickedpassenger" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"

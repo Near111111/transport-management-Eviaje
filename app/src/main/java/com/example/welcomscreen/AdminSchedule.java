@@ -2,6 +2,7 @@ package com.example.welcomscreen;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
@@ -21,8 +22,14 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Iterator;
 import java.util.Locale;
 
 public class AdminSchedule extends AppCompatActivity {
@@ -31,8 +38,6 @@ public class AdminSchedule extends AppCompatActivity {
     private boolean isItemSelected = false;
 
     private ImageButton imageButton;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +48,6 @@ public class AdminSchedule extends AppCompatActivity {
         ImageButton driverButton = findViewById(R.id.driver);
         ImageButton passengersButton = findViewById(R.id.passengers);
         ImageButton bulletinButton = findViewById(R.id.bulletin);
-
 
         shuttlesButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -83,7 +87,7 @@ public class AdminSchedule extends AppCompatActivity {
 
         // Get the current date
         Calendar calendar = Calendar.getInstance();
-        SimpleDateFormat sdf = new SimpleDateFormat("EEEE, MMMM d, yyyy", Locale.getDefault());
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
         String currentDate = sdf.format(calendar.getTime());
 
         // Set the text of textDate to the current date
@@ -105,7 +109,7 @@ public class AdminSchedule extends AppCompatActivity {
                     Intent intent = new Intent(AdminSchedule.this, AdminRegister.class);
                     startActivity(intent);
                     finish();
-                }else if(position == 3){
+                } else if (position == 3) {
                     Intent intent = new Intent(AdminSchedule.this, AdminAddEditGroup.class);
                     startActivity(intent);
                     finish();
@@ -121,8 +125,8 @@ public class AdminSchedule extends AppCompatActivity {
             }
         });
 
-        // Populate the TableLayout
-        populateTableLayout();
+        // Fetch and populate the TableLayout with data from the API
+        new FetchScheduleTask().execute("Arvi", currentDate);
     }
 
     private void setupSpinner() {
@@ -152,52 +156,80 @@ public class AdminSchedule extends AppCompatActivity {
         spinnerUserRole.setSelection(0);
     }
 
-    private void populateTableLayout() {
+    private class FetchScheduleTask extends AsyncTask<String, Void, JSONObject> {
+        @Override
+        protected JSONObject doInBackground(String... params) {
+            JSONObject responseJson = null;
+            try {
+                URL url = new URL("https://c889-136-158-57-167.ngrok-free.app/api/passenger/getPassengerList");
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                connection.setRequestMethod("POST");
+                connection.setRequestProperty("Content-Type", "application/json");
+                connection.setDoOutput(true);
+
+                JSONObject requestData = new JSONObject();
+                requestData.put("admin_username", params[0]);
+                requestData.put("date", params[1]);
+
+                OutputStream outputStream = connection.getOutputStream();
+                outputStream.write(requestData.toString().getBytes());
+                outputStream.flush();
+                outputStream.close();
+
+                BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                StringBuilder response = new StringBuilder();
+                String line;
+                while ((line = in.readLine()) != null) {
+                    response.append(line);
+                }
+                in.close();
+
+                responseJson = new JSONObject(response.toString());
+                connection.disconnect();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return responseJson;
+        }
+
+        @Override
+        protected void onPostExecute(JSONObject result) {
+            super.onPostExecute(result);
+            if (result != null) {
+                try {
+                    JSONObject apiResult = result.getJSONObject("api_result");
+                    if (apiResult.getInt("code") == 200) {
+                        populateTableLayout(apiResult.getJSONObject("data"));
+                    } else {
+                        // Handle API error response
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    private void populateTableLayout(JSONObject data) throws JSONException {
         TableLayout tl = findViewById(R.id.tbLayout);
 
-        // Simulating API response
-        String apiResponse = "{\"pickups\": [" +
-                "{\"pickup\": \"Pickup 1\", \"passengerList\": [\"Passenger 1\", \"Passenger 2\"]}, " +
-                "{\"pickup\": \"Pickup 2\", \"passengerList\": [\"Passenger 3\", \"Passenger 4\"]}, " +
-                "{\"pickup\": \"Pickup 3\", \"passengerList\": [\"Passenger 5\", \"Passenger 6\"]}, " +
-                "{\"pickup\": \"Pickup 4\", \"passengerList\": [\"Passenger 7\", \"Passenger 8\"]}, " +
-                "{\"pickup\": \"Pickup 5\", \"passengerList\": [\"Passenger 9\", \"Passenger 10\"]}, " +
-                "{\"pickup\": \"Pickup 6\", \"passengerList\": [\"Passenger 11\", \"Passenger 12\"]}, " +
-                "{\"pickup\": \"Pickup 7\", \"passengerList\": [\"Passenger 13\", \"Passenger 14\"]}, " +
-                "{\"pickup\": \"Pickup 8\", \"passengerList\": [\"Passenger 15\", \"Passenger 16\"]}, " +
-                "{\"pickup\": \"Pickup 9\", \"passengerList\": [\"Passenger 17\", \"Passenger 18\"]}, " +
-                "{\"pickup\": \"Pickup 10\", \"passengerList\": [\"Passenger 19\", \"Passenger 20\"]}, " +
-                "{\"pickup\": \"Pickup 11\", \"passengerList\": [\"Passenger 21\", \"Passenger 22\"]}, " +
-                "{\"pickup\": \"Pickup 12\", \"passengerList\": [\"Passenger 23\", \"Passenger 24\"]}, " +
-                "{\"pickup\": \"Pickup 13\", \"passengerList\": [\"Passenger 25\", \"Passenger 26\"]}, " +
-                "{\"pickup\": \"Pickup 14\", \"passengerList\": [\"Passenger 27\", \"Passenger 28\"]}, " +
-                "{\"pickup\": \"Pickup 15\", \"passengerList\": [\"Passenger 29\", \"Passenger 30\"]}, " +
-                "{\"pickup\": \"Pickup 16\", \"passengerList\": [\"Passenger 31\", \"Passenger 32\"]}, " +
-                "{\"pickup\": \"Pickup 17\", \"passengerList\": [\"Passenger 33\", \"Passenger 34\"]}, " +
-                "{\"pickup\": \"Pickup 18\", \"passengerList\": [\"Passenger 35\", \"Passenger 36\"]}, " +
-                "{\"pickup\": \"Pickup 19\", \"passengerList\": [\"Passenger 37\", \"Passenger 38\"]}, " +
-                "{\"pickup\": \"Pickup 20\", \"passengerList\": [\"Passenger 39\", \"Passenger 40\"]}" +
-                "]}";
-
-        try {
-            JSONObject responseObj = new JSONObject(apiResponse);
-            JSONArray pickupsArray = responseObj.getJSONArray("pickups");
-
-            for (int i = 0; i < pickupsArray.length(); i++) {
-                JSONObject pickupObj = pickupsArray.getJSONObject(i);
-                String pickup = pickupObj.getString("pickup");
-                JSONArray passengersArray = pickupObj.getJSONArray("passengerList");
+        for (Iterator<String> it = data.keys(); it.hasNext(); ) {
+            String city = it.next();
+            JSONObject cityObj = data.getJSONObject(city);
+            for (Iterator<String> iter = cityObj.keys(); iter.hasNext(); ) {
+                String pickupLocation = iter.next();
+                JSONArray passengersArray = cityObj.getJSONArray(pickupLocation);
 
                 // Create TableRow
                 TableRow tr = new TableRow(this);
                 tr.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
 
-                // Set background color
-                int backgroundColor = i % 2 == 0 ? Color.WHITE : Color.parseColor("#B3E4FB");
+                // Alternate row color
+                int backgroundColor = tl.getChildCount() % 2 == 0 ? Color.WHITE : Color.parseColor("#B3E4FB");
                 tr.setBackgroundColor(backgroundColor);
 
-                // Create TextView for pickup
-                TextView tvPickup = createTextView(pickup, 4);
+                // Create TextView for pickup location
+                TextView tvPickup = createTextView(pickupLocation, 4);
                 tr.addView(tvPickup);
 
                 // Create TextView for passenger list
@@ -206,13 +238,25 @@ public class AdminSchedule extends AppCompatActivity {
 
                 // Add TableRow to TableLayout
                 tl.addView(tr);
+
+                // Extract morningPickup and postWorkDropoff and set them to textView14 and textView27
+                for (int i = 0; i < passengersArray.length(); i++) {
+                    JSONObject passenger = passengersArray.getJSONObject(i);
+                    String morningPickup = passenger.getString("morningPickup");
+                    String postWorkDropoff = passenger.getString("postWorkDropoff");
+                    if (i == 0) {
+                        // Set morningPickup to textView14
+                        TextView textView14 = findViewById(R.id.textView14);
+                        textView14.setText(morningPickup);
+                        // Set postWorkDropoff to textView27
+                        TextView textView27 = findViewById(R.id.textView27);
+                        textView27.setText(postWorkDropoff);
+                    }
+                }
             }
-        } catch (JSONException e) {
-            e.printStackTrace();
         }
     }
 
-    // Method to create TextView with given text and style
     private TextView createTextView(String text, int widthWeight) {
         TextView textView = new TextView(this);
         TableRow.LayoutParams params = new TableRow.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -222,15 +266,15 @@ public class AdminSchedule extends AppCompatActivity {
         textView.setText(text);
         textView.setPadding(5, 5, 5, 5);
         textView.setTextColor(Color.BLACK); // Adjust text color if needed
-        textView.setGravity(Gravity.CENTER); // Center the text horizontally
         return textView;
     }
 
-    // Method to get formatted string for passenger list (vertical)
     private String getPassengersString(JSONArray passengersArray) throws JSONException {
         StringBuilder passengersText = new StringBuilder();
         for (int j = 0; j < passengersArray.length(); j++) {
-            passengersText.append(passengersArray.getString(j));
+            JSONObject passenger = passengersArray.getJSONObject(j);
+            String fullName = passenger.getString("firstName") + " " + passenger.getString("lastName");
+            passengersText.append(fullName);
             if (j < passengersArray.length() - 1) {
                 passengersText.append("\n"); // Add newline except for the last passenger
             }

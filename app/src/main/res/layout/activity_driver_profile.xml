@@ -132,7 +132,7 @@
         android:id="@+id/imageView14"
         android:layout_width="48dp"
         android:layout_height="48dp"
-        android:layout_marginTop="800dp"
+        android:layout_marginTop="790dp"
         android:background="@android:color/transparent"
         android:contentDescription="@string/hometome"
         app:srcCompat="@drawable/passengerhome" />
@@ -142,7 +142,7 @@
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:layout_marginLeft="100dp"
-        android:layout_marginTop="800dp"
+        android:layout_marginTop="790dp"
         android:background="@android:color/transparent"
         android:contentDescription="@string/calendartome"
         app:srcCompat="@drawable/passengerschedule" />
@@ -152,7 +152,7 @@
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:layout_marginLeft="210dp"
-        android:layout_marginTop="800dp"
+        android:layout_marginTop="790dp"
         android:background="@android:color/transparent"
         android:contentDescription="mapstome"
         app:srcCompat="@drawable/drivermap" />
@@ -162,10 +162,10 @@
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:layout_marginLeft="320dp"
-        android:layout_marginTop="800dp"
+        android:layout_marginTop="790dp"
         android:background="@android:color/transparent"
         android:contentDescription="profile"
-        app:srcCompat="@drawable/passengerprofile" />
+        app:srcCompat="@drawable/clickedprofile" />
 
     <TextView
         android:id="@+id/textView21"

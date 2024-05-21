@@ -6,7 +6,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/blfinal"
-    tools:context=".EmployeeSchedule">
+    android:contentDescription="whiteback"
+
+    tools:context=".AdminSchedule">
 
 
     <TextView
@@ -130,7 +132,7 @@
             android:gravity="center"
             android:padding="5dp"
             android:scaleType="fitXY"
-            android:text="Pick/Drop off"
+            android:text="Pickup/Drop off"
             android:textColor="#ffff"
             android:textSize="18dp"
             android:textStyle="bold" />
@@ -142,11 +144,33 @@
             android:gravity="center"
             android:padding="5dp"
             android:scaleType="fitXY"
-            android:text="Passenger List"
+            android:text="Passengers"
             android:textColor="#ffff"
             android:textSize="18dp"
             android:textStyle="bold" />
     </TableRow>
+
+    <TextView
+        android:id="@+id/textView14"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="48dp"
+        android:text="TextView"
+        app:layout_constraintEnd_toEndOf="@+id/imageView16"
+        app:layout_constraintHorizontal_bias="0.507"
+        app:layout_constraintStart_toEndOf="@+id/textView5"
+        app:layout_constraintTop_toBottomOf="@+id/imageView17" />
+
+    <TextView
+        android:id="@+id/textView27"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="52dp"
+        android:text="TextView"
+        app:layout_constraintEnd_toEndOf="@+id/imageView16"
+        app:layout_constraintHorizontal_bias="0.433"
+        app:layout_constraintStart_toEndOf="@+id/textView6"
+        app:layout_constraintTop_toBottomOf="@+id/textView14" />
 
     <ImageButton
         android:id="@+id/imageButton12"
@@ -158,7 +182,7 @@
         android:contentDescription="@string/scheduletome"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/imageButton18"
-        app:srcCompat="@drawable/calendar" />
+        app:srcCompat="@drawable/blueschedule" />
 
     <ImageButton
         android:id="@+id/imageButton17"
@@ -170,7 +194,7 @@
         android:contentDescription="@string/passengerssstome"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/passengerprofile" />
+        app:srcCompat="@drawable/passengers" />
 
     <ImageButton
         android:id="@+id/imageButton18"
@@ -197,5 +221,6 @@
         app:layout_constraintHorizontal_bias="0.466"
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/home2" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
