@@ -1,5 +1,7 @@
 package com.example.welcomscreen;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.content.Intent;
@@ -9,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,7 +37,7 @@ import java.util.List;
 public class AdminDriver extends AppCompatActivity {
     private RecyclerView recyclerView;
     private ContactAdapter contactAdapter;
-    private List<ContactCard> contactCardList;
+    private static List<ContactCard> contactCardList;
     private Button nextButton;
     private Button prevButton;
     private ImageButton imageButton;
@@ -92,6 +95,7 @@ public class AdminDriver extends AppCompatActivity {
         imageButton = findViewById(R.id.imageButton20);
         imageButton.setOnClickListener(v -> {
             Intent intent = new Intent(AdminDriver.this, Test111.class);
+            intent.putParcelableArrayListExtra("contactCardList", new ArrayList<>(contactCardList));
             startActivity(intent);
             finish();
         });
@@ -167,7 +171,8 @@ public class AdminDriver extends AppCompatActivity {
                             String phoneNumber = String.valueOf(driver.getLong("mobile_number"));
                             String email = driver.getString("email_add");
                             String address = driver.getString("address");
-                            contactCardList.add(new ContactCard(name, phoneNumber, email, address));
+                            String username = driver.getString("username"); // Assuming "username" field exists
+                            contactCardList.add(new ContactCard(name, phoneNumber, email, address, username));
                         }
 
                         // Update UI on the main thread
@@ -203,11 +208,12 @@ public class AdminDriver extends AppCompatActivity {
         }).start();
     }
 
-
-    public static class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactViewHolder> {
+    public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactViewHolder> {
         private List<ContactCard> contactCard;
         private int itemsPerPage = 1;
         private int currentPage = 0;
+
+        private Context context;
 
         public ContactAdapter(List<ContactCard> contactCard) {
             this.contactCard = contactCard;
@@ -220,28 +226,36 @@ public class AdminDriver extends AppCompatActivity {
             return new ContactViewHolder(view);
         }
 
-        @Override
         public void onBindViewHolder(@NonNull ContactViewHolder holder, int position) {
             List<ContactCard> currentPageItems = getCurrentPageItems();
-            final int adapterPosition = holder.getAdapterPosition();
             final ContactCard contact = currentPageItems.get(position);
 
             holder.textViewName.setText(contact.getName());
             holder.textViewPhoneNumber.setText(contact.getPhoneNumber());
             holder.textViewEmail.setText(contact.getEmail());
             holder.textViewAddress.setText(contact.getAddress());
+
+//            holder.editButton.setOnClickListener(v -> editDriver(position));
         }
 
+//        private void editDriver(int position) {
+//            AdminDriver.ContactCard contact = contactCardList.get(position);
+//            Intent intent = new Intent(context, Test111.class);
+//            intent.putExtra("contact", contact);
+//            context.startActivity(intent);
+//        }
         @Override
         public int getItemCount() {
             return getCurrentPageItems().size();
         }
 
-        public static class ContactViewHolder extends RecyclerView.ViewHolder {
+        public class ContactViewHolder extends RecyclerView.ViewHolder {
             TextView textViewName;
             TextView textViewPhoneNumber;
             TextView textViewEmail;
             TextView textViewAddress;
+
+            ImageView editButton;
 
             public ContactViewHolder(@NonNull View itemView) {
                 super(itemView);
@@ -249,6 +263,7 @@ public class AdminDriver extends AppCompatActivity {
                 textViewPhoneNumber = itemView.findViewById(R.id.textView2);
                 textViewEmail = itemView.findViewById(R.id.textView3);
                 textViewAddress = itemView.findViewById(R.id.textView4);
+                editButton = itemView.findViewById(R.id.editButton);
             }
         }
 
@@ -284,7 +299,7 @@ public class AdminDriver extends AppCompatActivity {
         private String address;
         private String username; // New field for username
 
-        public ContactCard(String name, String phoneNumber, String email, String address) {
+        public ContactCard(String name, String phoneNumber, String email, String address, String username) {
             this.name = name;
             this.phoneNumber = phoneNumber;
             this.email = email;

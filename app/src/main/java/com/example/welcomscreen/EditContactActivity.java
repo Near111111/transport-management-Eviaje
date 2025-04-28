@@ -23,7 +23,7 @@ public class EditContactActivity extends AppCompatActivity {
     private EditText editTextName;
     private EditText editTextPhoneNumber;
     private EditText editTextEmail;
-    private EditText editTextAddress;
+    private EditText editTextAddress, editTextUsername;
     private Button buttonUpdate;
     private int contactIndex;
 
@@ -37,6 +37,7 @@ public class EditContactActivity extends AppCompatActivity {
         editTextPhoneNumber = findViewById(R.id.editText2);
         editTextEmail = findViewById(R.id.editText3);
         editTextAddress = findViewById(R.id.editText4);
+//        editTextUsername = findViewById(R.id.spin);
         buttonUpdate = findViewById(R.id.saveButton);
 
         // Retrieve contact index from intent extras
@@ -50,6 +51,7 @@ public class EditContactActivity extends AppCompatActivity {
             editTextPhoneNumber.setText(contact.getPhoneNumber());
             editTextEmail.setText(contact.getEmail());
             editTextAddress.setText(contact.getAddress());
+            editTextUsername.setText(contact.getUsername());
 
             // Set onClickListener for update button
             buttonUpdate.setOnClickListener(new View.OnClickListener() {
@@ -60,7 +62,8 @@ public class EditContactActivity extends AppCompatActivity {
                             editTextName.getText().toString(),
                             editTextPhoneNumber.getText().toString(),
                             editTextEmail.getText().toString(),
-                            editTextAddress.getText().toString()
+                            editTextAddress.getText().toString(),
+                            editTextUsername.getText().toString()
                     );
 
                     // Update the contact in the list

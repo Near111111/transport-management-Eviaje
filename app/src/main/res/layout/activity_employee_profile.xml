@@ -153,7 +153,7 @@
         android:id="@+id/imageView14"
         android:layout_width="48dp"
         android:layout_height="48dp"
-        android:layout_marginTop="790dp"
+        android:layout_marginTop="770dp"
         android:background="@android:color/transparent"
         android:contentDescription="calndar"
         app:srcCompat="@drawable/passengerhome" />
@@ -163,7 +163,7 @@
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:layout_marginLeft="100dp"
-        android:layout_marginTop="790dp"
+        android:layout_marginTop="770dp"
         android:background="@android:color/transparent"
         android:contentDescription="hme"
         app:srcCompat="@drawable/passengerschedule" />
@@ -172,7 +172,7 @@
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:layout_marginLeft="210dp"
-        android:layout_marginTop="790dp"
+        android:layout_marginTop="770dp"
         android:background="@android:color/transparent"
         android:contentDescription="mp"
         app:srcCompat="@drawable/passengertracking" />
@@ -182,7 +182,7 @@
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:layout_marginLeft="320dp"
-        android:layout_marginTop="790dp"
+        android:layout_marginTop="770dp"
         android:background="@android:color/transparent"
         android:contentDescription="prf"
         app:srcCompat="@drawable/clickedprofile" />

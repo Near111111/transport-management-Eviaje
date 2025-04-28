@@ -4,11 +4,13 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -21,14 +23,13 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Iterator;
 import java.util.Locale;
 
 public class EmployeeHomeScreen extends AppCompatActivity {
 
     private String username;
     private TextView bulletinTextView;
-    private TextView morningPickupTextView;
+    private TextView morningPickupTextView, holidayTextView;
     private TextView postWorkDropoffTextView;
 
     @Override
@@ -39,42 +40,24 @@ public class EmployeeHomeScreen extends AppCompatActivity {
         ImageButton livetrackingButton = findViewById(R.id.imageView18);
         ImageButton scheduleButton = findViewById(R.id.imageView15);
         ImageButton profileButton = findViewById(R.id.imageView19);
+        holidayTextView = findViewById(R.id.textView20);
+        Spinner spinner = findViewById(R.id.spinner2);
+
+        String[] options = {"Opting Out", "Opting In"};
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, options);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+
+
         Intent intent = getIntent();
         if (intent != null) {
             username = intent.getStringExtra("username");
         }
-        livetrackingButton.setOnClickListener(v -> {
-            if (username != null) {
-                Log.d("EmployeeHomeScreen", "profileButton clicked");
-                Intent profileIntent = new Intent(EmployeeHomeScreen.this, PassengerActivity.class);
-                profileIntent.putExtra("username", username);
-                startActivity(profileIntent);
-            } else {
-                // Handle null username
-            }
-        });
 
-        scheduleButton.setOnClickListener(v -> {
-            if (username != null) {
-                Log.d("EmployeeHomeScreen", "profileButton clicked");
-                Intent profileIntent = new Intent(EmployeeHomeScreen.this, EmployeeSchedule.class);
-                profileIntent.putExtra("username", username);
-                startActivity(profileIntent);
-            } else {
-                // Handle null username
-            }
-        });
-
-        profileButton.setOnClickListener(v -> {
-            if (username != null) {
-                Log.d("EmployeeHomeScreen", "profileButton clicked");
-                Intent profileIntent = new Intent(EmployeeHomeScreen.this, EmployeeProfile.class);
-                profileIntent.putExtra("username", username);
-                startActivity(profileIntent);
-            } else {
-                // Handle null username
-            }
-        });
+        livetrackingButton.setOnClickListener(v -> startNewActivity(PassengerActivity.class));
+        scheduleButton.setOnClickListener(v -> startNewActivity(EmployeeSchedule.class));
+        profileButton.setOnClickListener(v -> startNewActivity(EmployeeProfile.class));
 
         Calendar calendar = Calendar.getInstance();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
@@ -87,25 +70,55 @@ public class EmployeeHomeScreen extends AppCompatActivity {
         morningPickupTextView = findViewById(R.id.morningpickup);
         postWorkDropoffTextView = findViewById(R.id.returntrip);
 
-        String announcementApiUrl = "https://c889-136-158-57-167.ngrok-free.app/api/passenger/getBulletinAnnouncement";
-        String announcementRequestBody = "{\"admin_username\":\"Arvi\",\"date\":\"" + currentDate + "\"}";
-
-        new GetDataFromAPITask().execute(announcementApiUrl, announcementRequestBody, "announcement");
-
-        String passengerApiUrl = "https://c889-136-158-57-167.ngrok-free.app/api/passenger/getPassengerList";
-        String passengerRequestBody = "{\"admin_username\":\"Arvi\",\"date\":\"" + currentDate + "\"}";
-        new GetPassengerListTask().execute(passengerApiUrl, passengerRequestBody);
+        // Call APIs for bulletin announcement and holiday
+        callAPIs();
     }
 
-    private class GetDataFromAPITask extends AsyncTask<String, Void, String> {
-        String dataType;
+    private void startNewActivity(Class<?> cls) {
+        if (username != null) {
+            Log.d("EmployeeHomeScreen", "Button clicked");
+            Intent intent = new Intent(EmployeeHomeScreen.this, cls);
+            intent.putExtra("username", username);
+            startActivity(intent);
+        } else {
+            // Handle null username
+        }
+    }
+
+    private void callAPIs() {
+        new GetDataFromAPITask().execute();
+    }
+
+    private class GetDataFromAPITask extends AsyncTask<Void, Void, String[]> {
 
         @Override
-        protected String doInBackground(String... params) {
-            String apiUrl = params[0];
-            String requestBody = params[1];
-            dataType = params[2];
+        protected String[] doInBackground(Void... voids) {
+            String[] results = new String[2];
 
+            // Get announcements from API
+            String announcementApiUrl = "https://c889-136-158-57-167.ngrok-free.app/api/passenger/getBulletinAnnouncement";
+            String announcementRequestBody = "{\"admin_username\": \"Arvi\", \"date\": \"2024-05-19\"}";
+            results[0] = fetchDataFromAPI(announcementApiUrl, announcementRequestBody);
+
+            // Get holidays from API
+            String holidayApiUrl = "https://c889-136-158-57-167.ngrok-free.app/api/passenger/getBulletinHoliday";
+            String holidayRequestBody = "{\"admin_username\": \"Arvi\"}";
+            results[1] = fetchDataFromAPI(holidayApiUrl, holidayRequestBody);
+
+            return results;
+        }
+
+        @Override
+        protected void onPostExecute(String[] results) {
+            if (results != null && results.length == 2) {
+                handleAnnouncementResponse(results[0]);
+                handleHolidayResponse(results[1]);
+            } else {
+                Toast.makeText(EmployeeHomeScreen.this, "Failed to fetch data from the API", Toast.LENGTH_SHORT).show();
+            }
+        }
+
+        private String fetchDataFromAPI(String apiUrl, String requestBody) {
             try {
                 URL url = new URL(apiUrl);
                 HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
@@ -136,31 +149,21 @@ public class EmployeeHomeScreen extends AppCompatActivity {
             }
         }
 
-        @Override
-        protected void onPostExecute(String result) {
-            if (result != null) {
-                handleApiResponse(result, dataType);
-            } else {
-                Toast.makeText(EmployeeHomeScreen.this, "Failed to fetch data from the API", Toast.LENGTH_SHORT).show();
-            }
-        }
-
-        private void handleApiResponse(String response, String dataType) {
+        private void handleAnnouncementResponse(String response) {
+            // Handle announcement response here
             try {
                 JSONObject jsonObject = new JSONObject(response);
                 JSONObject apiResult = jsonObject.getJSONObject("api_result");
                 int code = apiResult.getInt("code");
 
                 if (code == 200) {
-                    if (dataType.equals("announcement")) {
-                        JSONObject data = apiResult.getJSONObject("data");
-                        if (data.has("announcement")) {
-                            String announcement = data.getString("announcement");
-                            bulletinTextView = findViewById(R.id.bulletin);
-                            bulletinTextView.setText(announcement);
-                        } else {
-                            Toast.makeText(EmployeeHomeScreen.this, "No announcement available", Toast.LENGTH_SHORT).show();
-                        }
+                    JSONObject data = apiResult.getJSONObject("data");
+                    if (data.has("announcement")) {
+                        String announcement = data.getString("announcement");
+                        bulletinTextView = findViewById(R.id.bulletin);
+                        bulletinTextView.setText(announcement);
+                    } else {
+                        Toast.makeText(EmployeeHomeScreen.this, "No announcement available", Toast.LENGTH_SHORT).show();
                     }
                 } else {
                     Toast.makeText(EmployeeHomeScreen.this, "Failed to fetch data from the API", Toast.LENGTH_SHORT).show();
@@ -169,81 +172,41 @@ public class EmployeeHomeScreen extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
-    }
 
-    private class GetPassengerListTask extends AsyncTask<String, Void, String> {
-
-        @Override
-        protected String doInBackground(String... params) {
-            String apiUrl = params[0];
-            String requestBody = params[1];
-
+        private void handleHolidayResponse(String response) {
             try {
-                URL url = new URL(apiUrl);
-                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-                urlConnection.setRequestMethod("POST");
-                urlConnection.setRequestProperty("Content-Type", "application/json");
-                urlConnection.setDoOutput(true);
+                JSONObject jsonObject = new JSONObject(response);
+                JSONObject apiResult = jsonObject.getJSONObject("api_result");
+                int code = apiResult.getInt("code");
 
-                OutputStream outputStream = urlConnection.getOutputStream();
-                outputStream.write(requestBody.getBytes());
-                outputStream.flush();
-                outputStream.close();
+                if (code == 200) {
+                    JSONArray dataArray = apiResult.getJSONArray("data");
+                    StringBuilder holidayMessages = new StringBuilder();
 
-                int responseCode = urlConnection.getResponseCode();
-                if (responseCode == HttpURLConnection.HTTP_OK) {
-                    BufferedReader reader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
-                    StringBuilder response = new StringBuilder();
-                    String line;
-                    while ((line = reader.readLine()) != null) {
-                        response.append(line);
-                    }
-                    reader.close();
-                    return response.toString();
-                } else {
-                    return null;
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-                return null;
-            }
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            Log.d("GetPassengerListTask", "Result: " + result);
-            if (result != null) {
-                try {
-                    JSONObject jsonObject = new JSONObject(result);
-                    JSONObject data = jsonObject.getJSONObject("api_result").getJSONObject("data");
-                    // Iterate through each location and passenger to find the morningPickup and postWorkDropoff
-                    for (Iterator<String> it = data.keys(); it.hasNext();) {
-                        String location = it.next();
-                        JSONObject locationData = data.getJSONObject(location);
-                        for (Iterator<String> locIt = locationData.keys(); locIt.hasNext();) {
-                            String subLocation = locIt.next();
-                            JSONArray passengers = locationData.getJSONArray(subLocation);
-                            if (passengers.length() > 0) {
-                                JSONObject firstPassenger = passengers.getJSONObject(0);
-                                String morningPickup = firstPassenger.getString("morningPickup");
-                                String postWorkDropoff = firstPassenger.getString("postWorkDropoff");
-                                Log.d("GetPassengerListTask", "SubLocation: " + subLocation + " Morning Pickup: " + morningPickup + " Post Work Dropoff: " + postWorkDropoff);
-
-                                // Update the TextViews with the morningPickup and postWorkDropoff times
-                                runOnUiThread(() -> {
-                                    morningPickupTextView.setText(morningPickup);
-                                    postWorkDropoffTextView.setText(postWorkDropoff);
-                                });
-                                return;
-                            }
+                    for (int i = 0; i < dataArray.length(); i++) {
+                        JSONObject data = dataArray.getJSONObject(i);
+                        if (data.has("holiday") && data.has("announcement")) {
+                            String holiday = data.getString("holiday");
+                            String announcement = data.getString("announcement");
+                            holidayMessages.append("Holiday: ").append(holiday).append("\n");
+                            holidayMessages.append("Announcement: ").append(announcement).append("\n\n");
                         }
                     }
-                } catch (JSONException e) {
-                    e.printStackTrace();
+
+                    // Make sure to use the correct ID of the TextView for holiday
+                    holidayTextView = findViewById(R.id.textView20); // Change textView20 to the correct ID
+                    holidayTextView.setText(holidayMessages.toString());
+
+                    if (holidayMessages.length() == 0) {
+                        Toast.makeText(EmployeeHomeScreen.this, "No holiday announcement available", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(EmployeeHomeScreen.this, "Failed to fetch data from the API", Toast.LENGTH_SHORT).show();
                 }
-            } else {
-                Toast.makeText(EmployeeHomeScreen.this, "Failed to fetch passenger data from the API", Toast.LENGTH_SHORT).show();
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
         }
+
     }
 }

@@ -30,6 +30,8 @@
             android:padding="1dp">
 
             <!-- Image Button to trigger edit mode -->
+
+            <!-- Image and Editable Text Pair for Username -->
             <ImageButton
                 android:id="@+id/imageButton20"
                 android:layout_width="48dp"
@@ -40,7 +42,6 @@
                 android:onClick="toggleEditMode"
                 app:srcCompat="@drawable/editt" />
 
-            <!-- Image and Editable Text Pair for Username -->
             <LinearLayout
                 android:id="@+id/linearLayoutUsername"
                 android:layout_width="match_parent"
@@ -55,16 +56,12 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1" />
 
-                <EditText
-                    android:id="@+id/editTextUsername"
+                <Spinner
+                    android:id="@+id/spinnerUsername"
                     android:layout_width="0dp"
                     android:layout_height="48dp"
                     android:layout_weight="2"
-                    android:enabled="false"
-                    android:hint="Username"
-                    android:paddingLeft="8dp"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
+                    android:paddingLeft="8dp" />
 
             </LinearLayout>
 

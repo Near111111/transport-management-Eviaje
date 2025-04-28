@@ -161,8 +161,8 @@ public class AdminShuttles extends AppCompatActivity {
                                 jsonObject.getString("plateNumber"),
                                 jsonObject.getString("color"),
                                 Integer.parseInt(jsonObject.getString("sitingCapacity")),
-                                jsonObject.getString("coding"),
-                                0
+                                jsonObject.getString("coding")
+//                                0
                         );
                         vehicleList.add(vehicle);
 
@@ -193,14 +193,14 @@ public class AdminShuttles extends AppCompatActivity {
         private String coding;
         private int imageResource;
 
-        public Vehicle(String name, String model, String plateNumber, String color, int sittingCapacity, String coding, int imageResource) {
+        public Vehicle(String name, String model, String plateNumber, String color, int sittingCapacity, String coding) {
             this.name = name;
             this.model = model;
             this.plateNumber = plateNumber;
             this.color = color;
             this.sittingCapacity = sittingCapacity;
             this.coding = coding;
-            this.imageResource = imageResource;
+//            this.imageResource = imageResource;
         }
 
         // Getters
@@ -228,9 +228,9 @@ public class AdminShuttles extends AppCompatActivity {
             return coding;
         }
 
-        public int getImageResource() {
-            return imageResource;
-        }
+//        public int getImageResource() {
+//            return imageResource;
+//        }
     }
 
     public static class VehicleAdapter extends RecyclerView.Adapter<VehicleAdapter.VehicleViewHolder> {
@@ -259,7 +259,7 @@ public class AdminShuttles extends AppCompatActivity {
             holder.color.setText("Color: " + vehicle.getColor());
             holder.sittingCapacity.setText("Sitting Capacity: " + vehicle.getSittingCapacity());
             holder.coding.setText("Coding: " + vehicle.getCoding());
-            holder.vehicleImage.setImageResource(vehicle.getImageResource());
+//            holder.vehicleImage.setImageResource(vehicle.getImageResource());
 
             // Set the click listener for the edit button
             holder.editButton.setOnClickListener(v -> editVehicle(position));
@@ -279,7 +279,7 @@ public class AdminShuttles extends AppCompatActivity {
             intent.putExtra("color", vehicle.getColor());
             intent.putExtra("sitting_capacity", vehicle.getSittingCapacity());
             intent.putExtra("coding", vehicle.getCoding());
-            intent.putExtra("image_resource", vehicle.getImageResource());
+//            intent.putExtra("image_resource", vehicle.getImageResource());
             context.startActivity(intent);
         }
 

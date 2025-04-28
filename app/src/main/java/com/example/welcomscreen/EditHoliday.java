@@ -33,6 +33,32 @@ public class EditHoliday extends AppCompatActivity {
         holidayEditText = findViewById(R.id.editText_holiday);
         announcementEditText = findViewById(R.id.editText_announcement);
 
+        // Retrieve existing texts from the Intent
+        Intent intent = getIntent();
+        String existingHolidays = intent.getStringExtra("existingHolidays");
+//        String existingAnnouncements = intent.getStringExtra("existingAnnouncements");
+
+        // Set the existing text to the respective EditTexts
+        if (existingHolidays != null) {
+            // Paghihiwalayin ang holiday at announcement base sa "-"
+            String[] parts = existingHolidays.split(" - ");
+
+            if (parts.length == 2) {
+                // I-set ang holiday sa holidayEditText
+                holidayEditText.setText(parts[0].trim());
+                // I-set ang announcement sa announcementEditText
+                announcementEditText.setText(parts[1].trim());
+            } else {
+                // I-set ang holiday sa holidayEditText
+                holidayEditText.setText(parts[0].trim());
+                // I-set ang announcement sa announcementEditText
+                announcementEditText.setText(parts[1].trim());
+            }
+        }
+//        if (existingAnnouncements != null) {
+//            announcementEditText.setText(existingAnnouncements.trim());
+//        }
+
         backButton.setOnClickListener(v -> onBackPressed());
         backButton.setOnClickListener(v -> startActivity(new Intent(EditHoliday.this, AdminBulletin.class)));
         saveButton.setOnClickListener(new View.OnClickListener() {
@@ -45,7 +71,8 @@ public class EditHoliday extends AppCompatActivity {
                     // Call the method to save data
                     saveAnnouncement(holiday, announcement);
                 } else {
-                    Toast.makeText(EditHoliday.this, "Please fill in both fields", Toast.LENGTH_SHORT).show();
+                    saveAnnouncement(holiday, announcement);
+//                    Toast.makeText(EditHoliday.this, "Please fill in both fields", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -95,7 +122,7 @@ public class EditHoliday extends AppCompatActivity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                Toast.makeText(EditHoliday.this, "Failed to save announcement", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(EditHoliday.this, "Announcement to save announcement", Toast.LENGTH_SHORT).show();
                             }
                         });
                     }

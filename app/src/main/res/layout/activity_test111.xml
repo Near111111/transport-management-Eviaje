@@ -35,7 +35,34 @@
                 android:contentDescription="@string/edit3tome"
                 app:srcCompat="@drawable/editt"
                 android:background="@android:color/transparent" />
+            <LinearLayout
+                android:id="@+id/linearLayout4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingTop="8dp">
 
+                <ImageView
+                    android:id="@+id/imageView4"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:src="@drawable/bahay" />
+
+                <Spinner
+                    android:id="@+id/spinner_driver"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:padding="5dp"
+                    android:scaleType="fitXY"
+                    android:textColor="#ffff"
+                    android:textSize="18dp"
+                    android:textStyle="bold">
+
+                </Spinner>
+
+            </LinearLayout>
             <!-- Image and Editable Text Pair 1 -->
             <LinearLayout
                 android:id="@+id/linearLayout1"
@@ -130,9 +157,8 @@
 
             </LinearLayout>
 
-            <!-- Image and Editable Text Pair 4 -->
             <LinearLayout
-                android:id="@+id/linearLayout4"
+                android:id="@+id/linearLayout5"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
@@ -140,24 +166,28 @@
                 android:paddingTop="8dp">
 
                 <ImageView
-                    android:id="@+id/imageView4"
+                    android:id="@+id/imageView5"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:src="@drawable/bahay" />
 
                 <EditText
-                    android:id="@+id/editTextUsername"
+                    android:id="@+id/address"
                     android:layout_width="0dp"
                     android:layout_height="48dp"
                     android:layout_weight="2"
                     android:enabled="false"
-                    android:hint="Username"
+                    android:hint="Address"
                     android:paddingLeft="8dp"
                     android:textSize="18sp"
                     android:textStyle="bold" />
 
             </LinearLayout>
+            <!-- Image and Editable Text Pair 4 -->
+
+            <!-- Image and Editable Text Pair 4 -->
+
 
         </LinearLayout>
         <!-- Save Button -->

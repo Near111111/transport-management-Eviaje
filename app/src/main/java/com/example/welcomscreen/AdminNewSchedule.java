@@ -1,5 +1,7 @@
 package com.example.welcomscreen;
 
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -9,12 +11,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -37,16 +40,16 @@ import java.util.Locale;
 
 public class AdminNewSchedule extends AppCompatActivity {
 
-    private ImageButton imageButton, buttonSave, buttonCalendar;
+    private ImageButton imageButton, buttonSave, buttonCalendar, buttonCancel;
     private Spinner spinnerDriver, spinnerShuttle, spinnerCityGroups;
-    private EditText editTextMorningPickup, editTextPostWorkDropoff;
+    private Button buttonMorningPickup, buttonPostWorkDropoff;
     private TableLayout tableLayout;
-
     private String adminUsername;
     private List<String> driverList = new ArrayList<>();
     private List<String> shuttleList = new ArrayList<>();
     private List<String> cityGroupList = new ArrayList<>();
     private String[] urls;
+    private String selectedDate;  // Declare a variable to store the selected date
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,13 +63,23 @@ public class AdminNewSchedule extends AppCompatActivity {
         spinnerDriver = findViewById(R.id.spinner_driver);
         spinnerShuttle = findViewById(R.id.spinner_shuttle);
         spinnerCityGroups = findViewById(R.id.spinner_city_groups);
-        editTextMorningPickup = findViewById(R.id.textView28);
-        editTextPostWorkDropoff = findViewById(R.id.textView29);
+        buttonMorningPickup = findViewById(R.id.button_morning_pickup);
+        buttonPostWorkDropoff = findViewById(R.id.button_post_work_dropoff);
         buttonSave = findViewById(R.id.imageButton13);
+        buttonCancel = findViewById(R.id.imageButton14);
         buttonCalendar = findViewById(R.id.imageButton8);
         tableLayout = findViewById(R.id.tbLayout1);
 
         // Set click listener for the imageButton to navigate back to AdminSchedule activity
+
+        buttonCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(AdminNewSchedule.this, AdminSchedule.class);
+                startActivity(intent);
+                finish();
+            }
+        });
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -87,9 +100,7 @@ public class AdminNewSchedule extends AppCompatActivity {
         buttonCalendar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Start Driver activity
-                Intent intent = new Intent(AdminNewSchedule.this, ChooseDate.class);
-                startActivity(intent);
+                showDatePickerDialog();
             }
         });
 
@@ -115,6 +126,53 @@ public class AdminNewSchedule extends AppCompatActivity {
                 // Do nothing
             }
         });
+
+        // Set click listeners for morning pickup and post-work dropoff buttons
+        buttonMorningPickup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showTimePickerDialog(buttonMorningPickup);
+            }
+        });
+
+        buttonPostWorkDropoff.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showTimePickerDialog(buttonPostWorkDropoff);
+            }
+        });
+    }
+
+    private void showDatePickerDialog() {
+        final Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+        DatePickerDialog datePickerDialog = new DatePickerDialog(this,
+                (view, year1, monthOfYear, dayOfMonth) -> {
+                    calendar.set(year1, monthOfYear, dayOfMonth);
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+                    selectedDate = sdf.format(calendar.getTime());
+                    buttonCalendar.setContentDescription(selectedDate);
+                }, year, month, day);
+        datePickerDialog.show();
+    }
+
+    private void showTimePickerDialog(final Button button) {
+        final Calendar currentTime = Calendar.getInstance();
+        int hour = currentTime.get(Calendar.HOUR_OF_DAY);
+        int minute = currentTime.get(Calendar.MINUTE);
+
+        TimePickerDialog timePickerDialog = new TimePickerDialog(this,
+                new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                        String selectedTime = String.format(Locale.getDefault(), "%02d:%02d", hourOfDay, minute);
+                        button.setText(selectedTime);
+                    }
+                }, hour, minute, false);
+        timePickerDialog.show();
     }
 
     private void populateSpinner(Spinner spinner, List<String> data) {
@@ -124,16 +182,14 @@ public class AdminNewSchedule extends AppCompatActivity {
     }
 
     private void saveNewSchedule() {
-        String morningPickup = editTextMorningPickup.getText().toString();
-        String postWorkDropoff = editTextPostWorkDropoff.getText().toString();
+        String morningPickup = buttonMorningPickup.getText().toString();
+        String postWorkDropoff = buttonPostWorkDropoff.getText().toString();
         String selectedDriver = spinnerDriver.getSelectedItem().toString();
         String selectedShuttle = spinnerShuttle.getSelectedItem().toString();
         String selectedCityGroup = spinnerCityGroups.getSelectedItem().toString();
 
-        // Get the current date
-        Calendar calendar = Calendar.getInstance();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-        String currentDate = sdf.format(calendar.getTime());
+        // Use the selected date or default to the current date if no date is selected
+        String date = selectedDate != null ? selectedDate : new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Calendar.getInstance().getTime());
 
         // Convert city group name to its corresponding ID
         int passengerGroupId = convertCityGroupNameToId(selectedCityGroup);
@@ -146,7 +202,7 @@ public class AdminNewSchedule extends AppCompatActivity {
             newScheduleObject.put("post_work_dropoff", postWorkDropoff);
             newScheduleObject.put("driver", selectedDriver);
             newScheduleObject.put("shuttle", selectedShuttle);
-            newScheduleObject.put("date", currentDate);
+            newScheduleObject.put("date", date);
             newScheduleObject.put("passenger_group_id", passengerGroupId);
         } catch (JSONException e) {
             e.printStackTrace();

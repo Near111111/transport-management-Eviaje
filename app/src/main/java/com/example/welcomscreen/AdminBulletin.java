@@ -38,18 +38,36 @@ public class AdminBulletin extends AppCompatActivity {
         ImageButton driverButton = findViewById(R.id.driver);
         ImageButton passengersButton = findViewById(R.id.passengers);
         ImageButton bulletinButton = findViewById(R.id.calendar);
-        ImageButton announcementbutton1 = findViewById(R.id.announcementbutton);
-        ImageButton holidaybutton1 = findViewById(R.id.holidaybutton);
+        ImageButton announcementButton = findViewById(R.id.announcementbutton);
+        ImageButton holidayButton = findViewById(R.id.holidaybutton);
 
         shuttlesButton.setOnClickListener(v -> startActivity(new Intent(AdminBulletin.this, AdminShuttles.class)));
         driverButton.setOnClickListener(v -> startActivity(new Intent(AdminBulletin.this, AdminDriver.class)));
         passengersButton.setOnClickListener(v -> startActivity(new Intent(AdminBulletin.this, AdminPassengers.class)));
         bulletinButton.setOnClickListener(v -> startActivity(new Intent(AdminBulletin.this, AdminSchedule.class)));
-        announcementbutton1.setOnClickListener(v -> startActivity(new Intent(AdminBulletin.this, AdminEditAnnouncement.class)));
-        holidaybutton1.setOnClickListener(v -> startActivity(new Intent(AdminBulletin.this, EditHoliday.class)));
+        //announcementButton.setOnClickListener(v -> startActivity(new Intent(AdminBulletin.this, AdminEditAnnouncement.class)));
 
-        // Set up ImageButton to navigate to AdminEditAnnouncement activity
+        announcementButton.setOnClickListener(v -> {
 
+            TextView textAnnouncements = findViewById(R.id.textView20);
+            String existingAnnouncements = textAnnouncements.getText().toString();
+
+            Intent intent = new Intent(AdminBulletin.this, AdminEditAnnouncement.class);
+            intent.putExtra("existingAnnouncements", existingAnnouncements);
+            startActivity(intent);
+        });
+
+        holidayButton.setOnClickListener(v -> {
+            TextView textHolidays = findViewById(R.id.textView19);
+            String existingHolidays = textHolidays.getText().toString();
+//            TextView textAnnouncements = findViewById(R.id.textView20);
+//            String existingAnnouncements = textAnnouncements.getText().toString();
+
+            Intent intent = new Intent(AdminBulletin.this, EditHoliday.class);
+            intent.putExtra("existingHolidays", existingHolidays);
+//            intent.putExtra("existingAnnouncements", existingAnnouncements);
+            startActivity(intent);
+        });
 
         // Get announcements from API
         String announcementApiUrl = "https://c889-136-158-57-167.ngrok-free.app/api/passenger/getBulletinAnnouncement";
@@ -154,9 +172,9 @@ public class AdminBulletin extends AppCompatActivity {
                             for (int i = 0; i < data.length(); i++) {
                                 JSONObject item = data.getJSONObject(i);
                                 String holidayInfo = item.getString("holiday") + " - " +
-                                        item.getString("announcement");
+                                       "\n\n" + item.getString("announcement");
 
-                                SpannableString spannableHoliday = new SpannableString(holidayInfo + "\n\n");
+                                SpannableString spannableHoliday = new SpannableString(holidayInfo + "\n\n\n");
                                 spannableHoliday.setSpan(new StyleSpan(Typeface.BOLD), 0, item.getString("holiday").length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
                                 dataStringBuilder.append(spannableHoliday);
@@ -175,6 +193,5 @@ public class AdminBulletin extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
-
     }
 }

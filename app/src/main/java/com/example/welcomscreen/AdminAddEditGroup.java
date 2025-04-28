@@ -25,7 +25,10 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Iterator;
+import java.util.Locale;
 
 public class AdminAddEditGroup extends AppCompatActivity {
 
@@ -54,12 +57,16 @@ public class AdminAddEditGroup extends AppCompatActivity {
         quezonCityTableLayout = findViewById(R.id.tbLayout);
         manilaCityTableLayout = findViewById(R.id.tbLayout1);
 
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        String currentDate = dateFormat.format(calendar.getTime());
+
         urls = new String[]{"https://c889-136-158-57-167.ngrok-free.app/api/passenger/getPassengerList"};
 
         String adminUsername = "Arvi";
-        String date = "2024-05-19";
+//        String date = "2024-05-19";
 
-        new FetchAvailableDataTask(adminUsername, date).execute();
+        new FetchAvailableDataTask(adminUsername, currentDate).execute();
     }
 
     private class FetchAvailableDataTask extends AsyncTask<Void, Void, Boolean> {

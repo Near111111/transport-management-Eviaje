@@ -31,6 +31,7 @@ public class AdminEditAnnouncement extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_edit_announcement);
 
+
         imageButton = findViewById(R.id.imageButton6);
         imageButton.setOnClickListener(v -> {
             Intent intent = new Intent(AdminEditAnnouncement.this, AdminBulletin.class);
@@ -38,10 +39,15 @@ public class AdminEditAnnouncement extends AppCompatActivity {
             finish();
         });
 
+        Intent intent = getIntent();
+        String existingAnnouncements = intent.getStringExtra("existingAnnouncements");
         editTextAnnouncement = findViewById(R.id.editText_announcement);
         buttonSubmit = findViewById(R.id.button_submit);
+        if (existingAnnouncements != null) {
+            editTextAnnouncement.setText(existingAnnouncements.trim());
+        }
 
-        editTextAnnouncement.setOnClickListener(new View.OnClickListener() {
+            editTextAnnouncement.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // Allow user to edit the text when clicked
@@ -49,6 +55,7 @@ public class AdminEditAnnouncement extends AppCompatActivity {
                 editTextAnnouncement.requestFocus();
             }
         });
+
 
         buttonSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
