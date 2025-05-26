@@ -118,7 +118,7 @@ public class AdminPassengers extends AppCompatActivity {
             @Override
             public void run() {
                 try {
-                    URL url = new URL("https://c889-136-158-57-167.ngrok-free.app/api/user/getAllPassenger");
+                    URL url = new URL(ApiConfig.API_URL + "/api/user/getAllPassenger");
                     HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                     connection.setRequestMethod("POST");
                     connection.setRequestProperty("Content-Type", "application/json");

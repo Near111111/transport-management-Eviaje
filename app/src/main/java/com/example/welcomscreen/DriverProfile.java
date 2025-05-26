@@ -102,7 +102,7 @@ public class DriverProfile extends AppCompatActivity {
         @Override
         protected String doInBackground(String... params) {
             String username = params[0];
-            String apiUrl = "https://c889-136-158-57-167.ngrok-free.app/api/user/getDriverByUserName";
+            String apiUrl = ApiConfig.API_URL + "/api/user/getDriverByUserName";
 
             try {
                 URL url = new URL(apiUrl);

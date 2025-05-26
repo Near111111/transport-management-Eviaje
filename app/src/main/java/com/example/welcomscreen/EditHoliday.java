@@ -84,7 +84,7 @@ public class EditHoliday extends AppCompatActivity {
             public void run() {
                 try {
                     // URL of the API
-                    String apiUrl = "https://c889-136-158-57-167.ngrok-free.app/api/user/addBulletinMessage";
+                    String apiUrl = ApiConfig.API_URL + "/api/user/addBulletinMessage";
 
                     // Create a JSON object to send to the API
                     JSONObject jsonBody = new JSONObject();

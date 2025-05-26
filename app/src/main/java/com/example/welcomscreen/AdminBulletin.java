@@ -70,12 +70,12 @@ public class AdminBulletin extends AppCompatActivity {
         });
 
         // Get announcements from API
-        String announcementApiUrl = "https://c889-136-158-57-167.ngrok-free.app/api/passenger/getBulletinAnnouncement";
+        String announcementApiUrl = ApiConfig.API_URL + "/api/passenger/getBulletinAnnouncement";
         String announcementRequestBody = "{\"admin_username\": \"Arvi\", \"date\": \"2024-05-19\"}";
         new GetDataFromAPITask().execute(announcementApiUrl, announcementRequestBody, "announcement");
 
         // Get holidays from API
-        String holidayApiUrl = "https://c889-136-158-57-167.ngrok-free.app/api/passenger/getBulletinHoliday";
+        String holidayApiUrl = ApiConfig.API_URL + "/api/passenger/getBulletinHoliday";
         String holidayRequestBody = "{\"admin_username\": \"Arvi\"}";
         new GetDataFromAPITask().execute(holidayApiUrl, holidayRequestBody, "holiday");
     }

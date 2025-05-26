@@ -14,7 +14,7 @@ public class ApiHelper {
             @Override
             public void run() {
                 try {
-                    URL url = new URL("https://c889-136-158-57-167.ngrok-free.app/api/user/updateDriver");
+                    URL url = new URL(ApiConfig.API_URL + "/api/user/updateDriver");
                     HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                     conn.setRequestMethod("POST");
                     conn.setRequestProperty("Content-Type", "application/json;charset=UTF-8");

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="opt_in_out_array">
+        <item>Opt In</item>
+        <item>Opt Out</item>
+    </string-array>
+</resources>

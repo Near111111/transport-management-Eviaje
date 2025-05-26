@@ -74,7 +74,7 @@ public class AddShuttle extends AppCompatActivity {
                 requestData.put("coding", coding);
 
                 // Create URL object for API endpoint
-                URL url = new URL("https://c889-136-158-57-167.ngrok-free.app/api/shuttles/registerShuttles");
+                URL url = new URL(ApiConfig.API_URL + "/api/shuttles/registerShuttles");
 
                 // Open connection
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();

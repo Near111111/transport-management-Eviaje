@@ -61,7 +61,7 @@ public class AdminAddEditGroup extends AppCompatActivity {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
         String currentDate = dateFormat.format(calendar.getTime());
 
-        urls = new String[]{"https://c889-136-158-57-167.ngrok-free.app/api/passenger/getPassengerList"};
+        urls = new String[]{ApiConfig.API_URL + "/api/passenger/getPassengerList"};
 
         String adminUsername = "Arvi";
 //        String date = "2024-05-19";

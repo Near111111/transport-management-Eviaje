@@ -106,9 +106,9 @@ public class AdminNewSchedule extends AppCompatActivity {
 
         // Call AsyncTask to fetch available drivers, shuttles, and passenger groups from the API
         urls = new String[]{
-                "https://c889-136-158-57-167.ngrok-free.app/api/user/getAllDriver",
-                "https://c889-136-158-57-167.ngrok-free.app/api/shuttles/selectAllShuttles",
-                "https://c889-136-158-57-167.ngrok-free.app/api/passenger/getPassengerGroup"
+                ApiConfig.API_URL + "/api/user/getAllDriver",
+                ApiConfig.API_URL + "/api/shuttles/selectAllShuttles",
+                ApiConfig.API_URL + "/api/passenger/getPassengerGroup"
         };
         new FetchAvailableDataTask().execute(urls);
 
@@ -209,7 +209,7 @@ public class AdminNewSchedule extends AppCompatActivity {
         }
 
         // Call AsyncTask to post the new schedule to the API
-        new PostNewScheduleTask().execute("https://c889-136-158-57-167.ngrok-free.app/api/passenger/createNewSchedule", newScheduleObject.toString());
+        new PostNewScheduleTask().execute(ApiConfig.API_URL + "/api/passenger/createNewSchedule", newScheduleObject.toString());
     }
 
     private int convertCityGroupNameToId(String cityName) {
@@ -326,7 +326,7 @@ public class AdminNewSchedule extends AppCompatActivity {
         protected JSONArray doInBackground(Integer... params) {
             JSONArray passengerList = null;
             try {
-                URL url = new URL("https://c889-136-158-57-167.ngrok-free.app/api/passenger/getPassengerListGroupById");
+                URL url = new URL(ApiConfig.API_URL + "/api/passenger/getPassengerListGroupById");
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                 connection.setRequestMethod("POST");
                 connection.setRequestProperty("Content-Type", "application/json");

@@ -3,6 +3,7 @@ package com.example.welcomscreen;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -12,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -19,16 +21,25 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 
 public class DrivenHomeScreen extends AppCompatActivity {
 
     private String username;
+    private int userId;
+    private String currentDate;
+
     private TextView bulletinTextView;
-    private TextView morningPickupTextView, holidayTextView;
-    private TextView postWorkDropoffTextView;
+    private TextView morningPickupTextView, holidayTextView, postWorkDropoffTextView;
+    private TextView tomorrowMorningPickUpTextView, tomorrowReturnTripTextView;
+    private TextView dispatchMorningTextView, dispatchReturnTextView;
+
+    private final Handler handler = new Handler();
+    private Runnable morningRunnable, returnRunnable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,40 +49,41 @@ public class DrivenHomeScreen extends AppCompatActivity {
         ImageButton livetrackingButton = findViewById(R.id.imageView18);
         ImageButton scheduleButton = findViewById(R.id.imageView15);
         ImageButton profileButton = findViewById(R.id.imageView19);
+
         holidayTextView = findViewById(R.id.textView20);
+        dispatchMorningTextView = findViewById(R.id.textView34);
+        dispatchReturnTextView = findViewById(R.id.textView35);
 
         Intent intent = getIntent();
         if (intent != null) {
             username = intent.getStringExtra("username");
+            userId = intent.getIntExtra("userId", -1);
         }
 
-        livetrackingButton.setOnClickListener(v -> startNewActivity(PassengerActivity.class));
-        scheduleButton.setOnClickListener(v -> startNewActivity(EmployeeSchedule.class));
-        profileButton.setOnClickListener(v -> startNewActivity(EmployeeProfile.class));
+        livetrackingButton.setOnClickListener(v -> startNewActivity(MapsActivity.class));
+        scheduleButton.setOnClickListener(v -> startNewActivity(DriverNewSchedule.class));
+        profileButton.setOnClickListener(v -> startNewActivity(DriverProfile.class));
 
         Calendar calendar = Calendar.getInstance();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-        String currentDate = sdf.format(calendar.getTime());
+        currentDate = sdf.format(calendar.getTime());
 
         TextView textDate = findViewById(R.id.calendartoday);
         textDate.setText(currentDate);
 
-        // Bind TextViews for morning pickup and post work dropoff
         morningPickupTextView = findViewById(R.id.morningpickup);
         postWorkDropoffTextView = findViewById(R.id.returntrip);
+        tomorrowMorningPickUpTextView = findViewById(R.id.tommorrowMorningPickUp);
+        tomorrowReturnTripTextView = findViewById(R.id.tommorrowReturnTrip);
 
-        // Call APIs for bulletin announcement and holiday
         callAPIs();
     }
 
     private void startNewActivity(Class<?> cls) {
         if (username != null) {
-            Log.d("DrivenHomeScreen", "Button clicked"); // Changed "EmployeeHomeScreen" to "DrivenHomeScreen"
             Intent intent = new Intent(DrivenHomeScreen.this, cls);
             intent.putExtra("username", username);
             startActivity(intent);
-        } else {
-            // Handle null username
         }
     }
 
@@ -83,26 +95,32 @@ public class DrivenHomeScreen extends AppCompatActivity {
 
         @Override
         protected String[] doInBackground(Void... voids) {
-            String[] results = new String[2];
+            String[] results = new String[3];
 
-            // Get announcements from API
-            String announcementApiUrl = "https://c889-136-158-57-167.ngrok-free.app/api/passenger/getBulletinAnnouncement";
+            String announcementApiUrl = ApiConfig.API_URL + "/api/passenger/getBulletinAnnouncement";
             String announcementRequestBody = "{\"admin_username\": \"Arvi\", \"date\": \"2024-05-19\"}";
             results[0] = fetchDataFromAPI(announcementApiUrl, announcementRequestBody);
 
-            // Get holidays from API
-            String holidayApiUrl = "https://c889-136-158-57-167.ngrok-free.app/api/passenger/getBulletinHoliday";
+            String holidayApiUrl = ApiConfig.API_URL + "/api/passenger/getBulletinHoliday";
             String holidayRequestBody = "{\"admin_username\": \"Arvi\"}";
             results[1] = fetchDataFromAPI(holidayApiUrl, holidayRequestBody);
+
+            String scheduleApiUrl = ApiConfig.API_URL + "/api/passenger/getScheduleByPassenger";
+            int testPassengerId = (userId == -1) ? 66 : userId;
+            String scheduleRequestBody = String.format(Locale.getDefault(),
+                    "{\"admin_username\": \"ernani.viaje\", \"passenger_id\": %d, \"date\": \"%s\"}",
+                    testPassengerId, currentDate);
+            results[2] = fetchDataFromAPI(scheduleApiUrl, scheduleRequestBody);
 
             return results;
         }
 
         @Override
         protected void onPostExecute(String[] results) {
-            if (results != null && results.length == 2) {
+            if (results != null && results.length == 3) {
                 handleAnnouncementResponse(results[0]);
                 handleHolidayResponse(results[1]);
+                handleScheduleResponse(results[2]);
             } else {
                 Toast.makeText(DrivenHomeScreen.this, "Failed to fetch data from the API", Toast.LENGTH_SHORT).show();
             }
@@ -115,19 +133,26 @@ public class DrivenHomeScreen extends AppCompatActivity {
                 urlConnection.setRequestMethod("POST");
                 urlConnection.setRequestProperty("Content-Type", "application/json");
                 urlConnection.setDoOutput(true);
+                urlConnection.setConnectTimeout(10000);
+                urlConnection.setReadTimeout(10000);
 
                 OutputStream outputStream = urlConnection.getOutputStream();
                 outputStream.write(requestBody.getBytes());
                 outputStream.flush();
                 outputStream.close();
 
-                InputStream inputStream = urlConnection.getInputStream();
+                int responseCode = urlConnection.getResponseCode();
+
+                InputStream inputStream = (responseCode >= 200 && responseCode < 300)
+                        ? urlConnection.getInputStream()
+                        : urlConnection.getErrorStream();
+
+                if (inputStream == null) return null;
+
                 BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
                 StringBuilder response = new StringBuilder();
                 String line;
-                while ((line = reader.readLine()) != null) {
-                    response.append(line);
-                }
+                while ((line = reader.readLine()) != null) response.append(line);
                 reader.close();
                 inputStream.close();
                 urlConnection.disconnect();
@@ -140,23 +165,13 @@ public class DrivenHomeScreen extends AppCompatActivity {
         }
 
         private void handleAnnouncementResponse(String response) {
-            // Handle announcement response here
             try {
                 JSONObject jsonObject = new JSONObject(response);
                 JSONObject apiResult = jsonObject.getJSONObject("api_result");
-                int code = apiResult.getInt("code");
-
-                if (code == 200) {
-                    JSONObject data = apiResult.getJSONObject("data");
-                    if (data.has("announcement")) {
-                        String announcement = data.getString("announcement");
-                        bulletinTextView = findViewById(R.id.bulletin);
-                        bulletinTextView.setText(announcement);
-                    } else {
-                        Toast.makeText(DrivenHomeScreen.this, "No announcement available", Toast.LENGTH_SHORT).show();
-                    }
-                } else {
-                    Toast.makeText(DrivenHomeScreen.this, "Failed to fetch data from the API", Toast.LENGTH_SHORT).show();
+                if (apiResult.getInt("code") == 200) {
+                    String announcement = apiResult.getJSONObject("data").getString("announcement");
+                    bulletinTextView = findViewById(R.id.bulletin);
+                    bulletinTextView.setText(announcement);
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -167,36 +182,91 @@ public class DrivenHomeScreen extends AppCompatActivity {
             try {
                 JSONObject jsonObject = new JSONObject(response);
                 JSONObject apiResult = jsonObject.getJSONObject("api_result");
-                int code = apiResult.getInt("code");
-
-                if (code == 200) {
+                if (apiResult.getInt("code") == 200) {
                     JSONArray dataArray = apiResult.getJSONArray("data");
                     StringBuilder holidayMessages = new StringBuilder();
-
                     for (int i = 0; i < dataArray.length(); i++) {
                         JSONObject data = dataArray.getJSONObject(i);
-                        if (data.has("holiday") && data.has("announcement")) {
-                            String holiday = data.getString("holiday");
-                            String announcement = data.getString("announcement");
-                            holidayMessages.append("Holiday: ").append(holiday).append("\n");
-                            holidayMessages.append("Announcement: ").append(announcement).append("\n\n");
-                        }
+                        holidayMessages.append("Holiday: ")
+                                .append(data.getString("holiday"))
+                                .append("\nAnnouncement: ")
+                                .append(data.getString("announcement")).append("\n\n");
                     }
-
-                    // Correctly assign holidayTextView
-                    holidayTextView = findViewById(R.id.textView20);
                     holidayTextView.setText(holidayMessages.toString());
-
-                    if (holidayMessages.length() == 0) {
-                        Toast.makeText(DrivenHomeScreen.this, "No holiday announcement available", Toast.LENGTH_SHORT).show();
-                    }
-                } else {
-                    Toast.makeText(DrivenHomeScreen.this, "Failed to fetch data from the API", Toast.LENGTH_SHORT).show();
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         }
 
+        private void handleScheduleResponse(String response) {
+            if (response == null || response.trim().isEmpty()) return;
+
+            try {
+                JSONObject jsonObject = new JSONObject(response);
+                JSONObject apiResult = jsonObject.getJSONObject("api_result");
+                if (apiResult.getInt("code") == 200) {
+                    JSONObject data = apiResult.getJSONObject("data");
+
+                    if (data.has("todaySchedule")) {
+                        JSONObject today = data.getJSONObject("todaySchedule");
+
+                        String morningPickup = today.optString("morning_pickup", "Not available");
+                        String returnTrip = today.optString("post_work_dropoff", "Not available");
+
+                        morningPickupTextView.setText(morningPickup);
+                        postWorkDropoffTextView.setText(returnTrip);
+
+                        startCountdown(morningPickup, dispatchMorningTextView);
+                        startCountdown(returnTrip, dispatchReturnTextView);
+                    }
+                    if (data.has("nextDaySchedule")) {
+                        JSONObject next = data.getJSONObject("nextDaySchedule");
+                        tomorrowMorningPickUpTextView.setText(next.optString("morning_pickup", "Not available"));
+                        tomorrowReturnTripTextView.setText(next.optString("post_work_dropoff", "Not available"));
+                    }
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void startCountdown(String timeStr, TextView displayView) {
+        if (timeStr == null || timeStr.equals("Not available")) {
+            displayView.setText("Not scheduled");
+            return;
+        }
+
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm", Locale.getDefault());
+        try {
+            Date scheduleTime = sdf.parse(timeStr);
+            Calendar now = Calendar.getInstance();
+            Calendar scheduled = Calendar.getInstance();
+            scheduled.setTime(scheduleTime);
+            scheduled.set(Calendar.YEAR, now.get(Calendar.YEAR));
+            scheduled.set(Calendar.MONTH, now.get(Calendar.MONTH));
+            scheduled.set(Calendar.DAY_OF_MONTH, now.get(Calendar.DAY_OF_MONTH));
+
+            Runnable countdownRunnable = new Runnable() {
+                @Override
+                public void run() {
+                    long millisLeft = scheduled.getTimeInMillis() - System.currentTimeMillis();
+                    if (millisLeft > 0) {
+                        long hours = millisLeft / (1000 * 60 * 60);
+                        long minutes = (millisLeft / (1000 * 60)) % 60;
+                        displayView.setText("Dispatching in " + hours + "h " + minutes + "m");
+                        handler.postDelayed(this, 1000);
+                    } else {
+                        displayView.setText("Completed");
+                    }
+                }
+            };
+
+            handler.post(countdownRunnable);
+
+        } catch (ParseException e) {
+            displayView.setText("Invalid time");
+        }
     }
 }

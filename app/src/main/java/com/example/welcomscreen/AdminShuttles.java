@@ -110,7 +110,7 @@ public class AdminShuttles extends AppCompatActivity {
         @Override
         protected String doInBackground(Void... voids) {
             try {
-                URL url = new URL("https://c889-136-158-57-167.ngrok-free.app/api/shuttles/selectAllShuttles");
+                URL url = new URL(ApiConfig.API_URL + "/api/shuttles/selectAllShuttles");
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                 connection.setRequestMethod("POST");
                 connection.setRequestProperty("Content-Type", "application/json");

@@ -61,7 +61,7 @@ public class AdminEditAnnouncement extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String userEnteredText = editTextAnnouncement.getText().toString();
-                String apiUrl = "https://c889-136-158-57-167.ngrok-free.app/api/passenger/updateBulletinAnnouncement";
+                String apiUrl = ApiConfig.API_URL + "/api/passenger/updateBulletinAnnouncement";
 
                 new Thread(new Runnable() {
                     @Override

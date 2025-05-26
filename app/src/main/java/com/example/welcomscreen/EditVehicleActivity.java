@@ -85,7 +85,7 @@ public class EditVehicleActivity extends AppCompatActivity {
                 requestData.put("coding", coding);
 
                 // Create URL object for API endpoint
-                URL url = new URL("https://c889-136-158-57-167.ngrok-free.app/api/shuttles/updateShuttles");
+                URL url = new URL(ApiConfig.API_URL + "/api/shuttles/updateShuttles");
 
                 // Open connection
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();

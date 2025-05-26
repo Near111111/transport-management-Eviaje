@@ -90,7 +90,7 @@ public class TestForPassengers extends AppCompatActivity {
                     requestData.put("admin_username", "Arvi");
 
                     // Establish connection to the API endpoint
-                    URL url = new URL("https://c889-136-158-57-167.ngrok-free.app/api/user/getAllPassenger");
+                    URL url = new URL(ApiConfig.API_URL + "/api/user/getAllPassenger");
                     HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                     connection.setRequestMethod("POST");
                     connection.setRequestProperty("Content-Type", "application/json");
@@ -199,7 +199,7 @@ public class TestForPassengers extends AppCompatActivity {
                     requestData.put("username", username);
 
                     // Establish connection to the API endpoint
-                    URL url = new URL("https://c889-136-158-57-167.ngrok-free.app/api/user/getPassengerByUserName");
+                    URL url = new URL(ApiConfig.API_URL + "/api/user/getPassengerByUserName");
                     HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                     connection.setRequestMethod("POST");
                     connection.setRequestProperty("Content-Type", "application/json");
@@ -351,7 +351,7 @@ public class TestForPassengers extends AppCompatActivity {
                     requestData.put("passenger_group_id", passengerGroup);
 
                     // Establish connection to the API endpoint
-                    URL url = new URL("https://c889-136-158-57-167.ngrok-free.app/api/user/updatePassengerByUserName");
+                    URL url = new URL(ApiConfig.API_URL + "/api/user/updatePassengerByUserName");
                     HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                     connection.setRequestMethod("POST");
                     connection.setRequestProperty("Content-Type", "application/json");

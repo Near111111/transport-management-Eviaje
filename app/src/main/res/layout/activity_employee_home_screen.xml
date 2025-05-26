@@ -8,25 +8,39 @@
     android:background="@drawable/blfinal"
     tools:context=".EmployeeHomeScreen">
 
+    <TextView
+        android:id="@+id/textView26"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="40dp"
+        android:text="Home"
+        android:textColor="@color/white"
+        android:textSize="30dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <ImageView
         android:id="@+id/imageView16"
-        android:layout_width="373dp"
+        android:layout_width="0dp"
         android:layout_height="133dp"
-        android:layout_marginTop="108dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="16dp"
         android:scaleType="fitXY"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.421"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView26"
         app:srcCompat="@drawable/cage" />
 
     <TextView
         android:id="@+id/calendartoday"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="4dp"
-        android:text="TODAY:"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="8dp"
+        android:text=""
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="@+id/imageView16"
         app:layout_constraintTop_toTopOf="@+id/imageView16" />
 
@@ -34,7 +48,7 @@
         android:id="@+id/textView22"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="12dp"
         android:layout_marginTop="20dp"
         android:text="Morning Pickup"
         app:layout_constraintStart_toStartOf="@+id/imageView16"
@@ -44,36 +58,188 @@
         android:id="@+id/textView23"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="32dp"
         android:text="Return Trip"
         app:layout_constraintStart_toStartOf="@+id/imageView16"
         app:layout_constraintTop_toBottomOf="@+id/textView22" />
 
     <TextView
-        android:id="@+id/textView26"
+        android:id="@+id/textView36"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="4dp"
-        android:text="Home"
-        android:textColor="@color/white"
-        android:textSize="30dp"
-        app:layout_constraintBottom_toTopOf="@+id/imageView16"
+        android:layout_marginStart="16dp"
+        android:text="7:30 AM"
+        app:layout_constraintBottom_toBottomOf="@+id/textView22"
+        app:layout_constraintStart_toEndOf="@+id/textView22"
+        app:layout_constraintTop_toTopOf="@+id/textView22" />
+
+    <TextView
+        android:id="@+id/textView37"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="44dp"
+        android:text="5:30 PM"
+        app:layout_constraintBottom_toBottomOf="@+id/textView23"
+        app:layout_constraintStart_toEndOf="@+id/textView23"
+        app:layout_constraintTop_toTopOf="@+id/textView23"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/optin_out"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:text="Status"
+        app:layout_constraintBottom_toBottomOf="@+id/textView36"
+        app:layout_constraintStart_toEndOf="@+id/textView36"
+        app:layout_constraintTop_toTopOf="@+id/textView36" />
+
+    <TextView
+        android:id="@+id/optin_out2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:text="Status"
+        app:layout_constraintBottom_toBottomOf="@+id/textView37"
+        app:layout_constraintStart_toEndOf="@+id/textView37"
+        app:layout_constraintTop_toTopOf="@+id/textView37" />
+
+    <Spinner
+        android:id="@+id/morningpickup_spinner"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginEnd="12dp"
+        android:entries="@array/opt_in_out_array"
+        app:layout_constraintBottom_toBottomOf="@+id/textView22"
+        app:layout_constraintEnd_toEndOf="@+id/imageView16"
+        app:layout_constraintTop_toTopOf="@+id/textView22" />
+
+    <Spinner
+        android:id="@+id/morningpickup_spinner2"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginEnd="12dp"
+        android:entries="@array/opt_in_out_array"
+        app:layout_constraintBottom_toBottomOf="@+id/textView23"
+        app:layout_constraintEnd_toEndOf="@+id/imageView16"
+        app:layout_constraintTop_toTopOf="@+id/textView23" />
+
+    <ImageView
+        android:id="@+id/imageView23"
+        android:layout_width="0dp"
+        android:layout_height="133dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="16dp"
+        android:scaleType="fitXY"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.187" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView16"
+        app:srcCompat="@drawable/cage" />
+
+    <TextView
+        android:id="@+id/calendartommorrow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="8dp"
+        android:text=""
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/imageView23"
+        app:layout_constraintTop_toTopOf="@+id/imageView23" />
+
+    <TextView
+        android:id="@+id/textView28"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="20dp"
+        android:text="Morning Pickup"
+        app:layout_constraintStart_toStartOf="@+id/imageView23"
+        app:layout_constraintTop_toBottomOf="@+id/calendartommorrow" />
+
+    <TextView
+        android:id="@+id/textView29"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="32dp"
+        android:text="Return Trip"
+        app:layout_constraintStart_toStartOf="@+id/imageView23"
+        app:layout_constraintTop_toBottomOf="@+id/textView28" />
+
+    <TextView
+        android:id="@+id/textView30"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="7:30 AM"
+        app:layout_constraintBottom_toBottomOf="@+id/textView28"
+        app:layout_constraintStart_toEndOf="@+id/textView28"
+        app:layout_constraintTop_toTopOf="@+id/textView28" />
+
+    <TextView
+        android:id="@+id/textView31"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="44dp"
+        android:text="5:30 PM"
+        app:layout_constraintBottom_toBottomOf="@+id/textView29"
+        app:layout_constraintStart_toEndOf="@+id/textView29"
+        app:layout_constraintTop_toTopOf="@+id/textView29"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/optin_out3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:text="Status"
+        app:layout_constraintBottom_toBottomOf="@+id/textView30"
+        app:layout_constraintStart_toEndOf="@+id/textView30"
+        app:layout_constraintTop_toTopOf="@+id/textView30" />
+
+    <TextView
+        android:id="@+id/optin_out4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:text="Status"
+        app:layout_constraintBottom_toBottomOf="@+id/textView31"
+        app:layout_constraintStart_toEndOf="@+id/textView31"
+        app:layout_constraintTop_toTopOf="@+id/textView31" />
+
+    <Spinner
+        android:id="@+id/morningpickup_spinner3"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginEnd="12dp"
+        android:entries="@array/opt_in_out_array"
+        app:layout_constraintBottom_toBottomOf="@+id/textView28"
+        app:layout_constraintEnd_toEndOf="@+id/imageView23"
+        app:layout_constraintTop_toTopOf="@+id/textView28" />
+
+    <Spinner
+        android:id="@+id/morningpickup_spinner4"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginEnd="12dp"
+        android:entries="@array/opt_in_out_array"
+        app:layout_constraintBottom_toBottomOf="@+id/textView29"
+        app:layout_constraintEnd_toEndOf="@+id/imageView23"
+        app:layout_constraintTop_toTopOf="@+id/textView29" />
 
     <TableRow
         android:id="@+id/tableRow3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="24dp"
         android:background="@drawable/blue_layout"
         android:padding="5dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView16">
+        app:layout_constraintTop_toBottomOf="@+id/imageView23">
 
         <TextView
             android:layout_width="0dp"
@@ -85,134 +251,87 @@
             android:textColor="#ffff"
             android:textSize="18dp"
             android:textStyle="bold" />
-
     </TableRow>
 
     <TableLayout
         android:id="@+id/tbLayout1"
-        android:layout_width="399dp"
-        android:layout_height="338dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="64dp"
         android:orientation="horizontal"
         android:padding="5dp"
         android:scaleType="fitXY"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tableRow3">
 
-        <!-- Your table rows and cells go here -->
+        <TextView
+            android:id="@+id/bulletin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:text="Bulletin content here" />
+
+        <TextView
+            android:id="@+id/textView20"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:text="Additional bulletin info" />
 
     </TableLayout>
 
-    <ImageButton
-        android:id="@+id/imageView14"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginBottom="16dp"
-        android:background="@android:color/transparent"
-        android:contentDescription="@string/hometome"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/imageView15"
-        app:layout_constraintHorizontal_bias="0.426"
-        app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/passengerhome" />
-
-    <ImageButton
-        android:id="@+id/imageView15"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_marginEnd="52dp"
-        android:layout_marginBottom="16dp"
-        android:background="@android:color/transparent"
-        android:contentDescription="@string/calendartome"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/imageView18"
-        app:srcCompat="@drawable/passengerschedule" />
-
-    <ImageButton
-        android:id="@+id/imageView18"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_marginEnd="40dp"
-        android:layout_marginBottom="16dp"
-        android:background="@android:color/transparent"
-        android:contentDescription="mapstome"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/imageView19"
-        app:srcCompat="@drawable/passengertracking" />
-
-    <ImageButton
-        android:id="@+id/imageView19"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginBottom="16dp"
-        android:background="@android:color/transparent"
-        android:contentDescription="profile"
+    <LinearLayout
+        android:id="@+id/bottomNavBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/passengerprofile" />
+        app:layout_constraintStart_toStartOf="parent">
 
-    <TextView
-        android:id="@+id/bulletin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="100dp"
-        android:text="TextView"
-        app:layout_constraintBottom_toBottomOf="@+id/tbLayout1"
-        app:layout_constraintStart_toStartOf="@+id/tbLayout1"
-        app:layout_constraintTop_toBottomOf="@+id/tableRow3" />
+        <ImageButton
+            android:id="@+id/imageView14"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginHorizontal="16dp"
+            android:background="@android:color/transparent"
+            android:contentDescription="@string/hometome"
+            app:srcCompat="@drawable/passengerhome" />
 
-    <TextView
-        android:id="@+id/morningpickup"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="48dp"
-        android:layout_marginEnd="48dp"
-        android:text="TextView"
-        app:layout_constraintEnd_toEndOf="@+id/imageView16"
-        app:layout_constraintTop_toTopOf="@+id/imageView16"
-        app:layout_constraintVertical_bias="0.68" />
+        <ImageButton
+            android:id="@+id/imageView15"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginHorizontal="16dp"
+            android:background="@android:color/transparent"
+            android:contentDescription="@string/calendartome"
+            app:srcCompat="@drawable/passengerschedule" />
 
-    <TextView
-        android:id="@+id/returntrip"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="188dp"
-        android:layout_marginBottom="20dp"
-        android:text="TextView"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView16"
-        app:layout_constraintStart_toEndOf="@+id/textView23" />
+        <ImageButton
+            android:id="@+id/imageView18"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginHorizontal="16dp"
+            android:background="@android:color/transparent"
+            android:contentDescription="mapstome"
+            app:srcCompat="@drawable/passengertracking" />
 
-    <TextView
-        android:id="@+id/textView20"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="TextView"
-        android:layout_marginRight="220dp"
-        app:layout_constraintBottom_toBottomOf="@+id/tbLayout1"
-        app:layout_constraintEnd_toEndOf="@+id/tbLayout1"
-        app:layout_constraintTop_toBottomOf="@+id/tableRow3" />
-
-    <Spinner
-        android:id="@+id/spinner2"
-        android:layout_width="wrap_content"
-        android:layout_height="48dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginRight="130dp"
-        app:layout_constraintEnd_toEndOf="@+id/imageView16"
-        app:layout_constraintHorizontal_bias="0.825"
-        app:layout_constraintStart_toEndOf="@+id/calendartoday"
-        app:layout_constraintTop_toTopOf="@+id/imageView16" />
-
-    <Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Confirm"
-        app:layout_constraintBottom_toTopOf="@+id/morningpickup"
-        app:layout_constraintEnd_toEndOf="@+id/imageView16"
-        app:layout_constraintStart_toEndOf="@+id/spinner2" />
-
+        <ImageButton
+            android:id="@+id/imageView19"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginHorizontal="16dp"
+            android:background="@android:color/transparent"
+            android:contentDescription="profile"
+            app:srcCompat="@drawable/passengerprofile" />
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

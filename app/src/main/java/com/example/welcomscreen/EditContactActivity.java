@@ -100,7 +100,7 @@ public class EditContactActivity extends AppCompatActivity {
                     requestData.put("pickup_dropoff_id", 3); // Assuming pickup_dropoff_id is constant
 
                     // Establish connection to the API endpoint
-                    URL url = new URL("https://c889-136-158-57-167.ngrok-free.app/api/user/updateDriverByDriverName");
+                    URL url = new URL(ApiConfig.API_URL + "/api/user/updateDriverByDriverName");
                     HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                     connection.setRequestMethod("POST");
                     connection.setRequestProperty("Content-Type", "application/json");

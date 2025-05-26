@@ -77,7 +77,7 @@ public class Test111 extends AppCompatActivity {
                 requestData.put("admin_username", "Arvi");
 
                 // Establish connection to the API endpoint
-                URL url = new URL("https://c889-136-158-57-167.ngrok-free.app/api/user/getAllDriver");
+                URL url = new URL(ApiConfig.API_URL + "/api/user/getAllDriver");
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                 connection.setRequestMethod("POST");
                 connection.setRequestProperty("Content-Type", "application/json");
@@ -178,7 +178,7 @@ public class Test111 extends AppCompatActivity {
                 requestData.put("pickup_dropoff_id", 3); // Assuming pickup_dropoff_id is constant
 
                 // Establish connection to the API endpoint
-                URL url = new URL("https://c889-136-158-57-167.ngrok-free.app/api/user/updateDriverByDriverName");
+                URL url = new URL(ApiConfig.API_URL + "/api/user/updateDriverByDriverName");
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                 connection.setRequestMethod("POST");
                 connection.setRequestProperty("Content-Type", "application/json");
@@ -254,7 +254,7 @@ public class Test111 extends AppCompatActivity {
                 requestData.put("username", username);
 
                 // Establish connection to the API endpoint
-                URL url = new URL("https://c889-136-158-57-167.ngrok-free.app/api/user/getDriverByUserName");
+                URL url = new URL(ApiConfig.API_URL + "/api/user/getDriverByUserName");
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                 connection.setRequestMethod("POST");
                 connection.setRequestProperty("Content-Type", "application/json");

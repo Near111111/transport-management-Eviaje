@@ -102,7 +102,7 @@ public class EmployeeSchedule extends AppCompatActivity {
         protected JSONObject doInBackground(String... params) {
             JSONObject responseJson = null;
             try {
-                URL url = new URL("https://c889-136-158-57-167.ngrok-free.app/api/passenger/getPassengerList");
+                URL url = new URL(ApiConfig.API_URL + "/api/passenger/getPassengerList");
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                 connection.setRequestMethod("POST");
                 connection.setRequestProperty("Content-Type", "application/json");
